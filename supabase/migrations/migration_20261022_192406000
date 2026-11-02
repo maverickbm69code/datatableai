@@ -1,0 +1,37 @@
+-- Datable: leads de contact + accès administrateur du site vitrine.
+-- Aucune politique RLS n'est définie volontairement : ces tables ne sont lues et écrites
+-- que par les backend functions (rôle service), jamais directement par le navigateur.
+
+create table if not exists public.datable_leads (
+  id uuid primary key default gen_random_uuid(),
+  email text not null,
+  source text not null,
+  created_at timestamptz not null default now(),
+  constraint datable_leads_source_check check (source in ('hero', 'footer'))
+);
+
+create unique index if not exists datable_leads_email_unique_idx
+  on public.datable_leads ((lower(email)));
+
+create index if not exists datable_leads_created_at_idx
+  on public.datable_leads (created_at desc);
+
+alter table public.datable_leads enable row level security;
+
+create table if not exists public.datable_admin_access (
+  id uuid primary key default gen_random_uuid(),
+  passcode_salt text not null,
+  passcode_hash text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.datable_admin_access enable row level security;
+
+create table if not exists public.datable_admin_sessions (
+  id uuid primary key default gen_random_uuid(),
+  token_hash text not null unique,
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null
+);
+
+alter table public.datable_admin_sessions enable row level security;

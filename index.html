@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="128x128" href="/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <title>Datable | Analyse de caisse pour restaurants</title>
+  <meta name="description"
+    content="Datable analyse les ventes de caisse des restaurants et en tire un plan d'action chiffré en euros. Premier mois offert." />
+  <meta name="author" content="Datable" />
+  <meta name="theme-color" content="#F4F5F8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0A0E24" media="(prefers-color-scheme: dark)" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400..700&display=swap">
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Datable" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="Datable | Analyse de caisse pour restaurants" />
+  <meta property="og:description"
+    content="Datable analyse les ventes de caisse des restaurants et en tire un plan d'action chiffré en euros. Premier mois offert." />
+
+  <script>
+    (function () {
+      try {
+        var m = window.matchMedia("(prefers-color-scheme: dark)");
+        var apply = function (dark) {
+          document.documentElement.classList.toggle("dark", dark);
+        };
+        apply(m.matches);
+        if (m.addEventListener) {
+          m.addEventListener("change", function (e) { apply(e.matches); });
+        }
+      } catch (e) { /* no-op */ }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

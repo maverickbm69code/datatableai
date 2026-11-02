@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Surfaces */
+    --background: 225 16% 96%;
+    --foreground: 231 55% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 231 55% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 231 55% 12%;
+
+    /* Accent bleu du logo */
+    --primary: 238 83% 61%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 238 83% 55%;
+    --primary-active: 238 85% 48%;
+    --primary-soft: 238 100% 97%;
+    --primary-soft-strong: 238 70% 92%;
+    --primary-on-band: 238 100% 84%;
+
+    --secondary: 225 20% 98%;
+    --secondary-foreground: 231 55% 12%;
+    --muted: 225 20% 96%;
+    --muted-foreground: 225 12% 41%;
+    --accent: 238 100% 97%;
+    --accent-foreground: 238 83% 45%;
+    --destructive: 0 68% 44%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 21% 89%;
+    --border-strong: 225 16% 78%;
+    --input: 225 21% 89%;
+    --ring: 238 83% 61%;
+
+    /* Bandeau sombre */
+    --band: 231 55% 12%;
+    --band-2: 240 46% 8%;
+    --band-foreground: 225 30% 94%;
+    --band-muted: 228 18% 72%;
+    --band-card: 231 50% 16%;
+    --band-border: 231 30% 26%;
+    --band-hover: 231 42% 22%;
+
+    /* CTA final */
+    --cta-soft: 238 100% 96%;
+    --cta-soft-border: 238 70% 92%;
+
+    /* Ticket de caisse (objet papier : identique dans les deux thèmes) */
+    --receipt: 40 72% 94%;
+    --receipt-ink: 26 9% 16%;
+    --receipt-ink-muted: 26 12% 38%;
+    --receipt-rule: 30 20% 78%;
+    --receipt-accent: 238 83% 55%;
+
+    --radius: 0.75rem;
+
+    --shadow-card: 0 1px 2px hsl(231 55% 12% / 0.05), 0 1px 1px hsl(231 55% 12% / 0.04);
+    --shadow-card-hover: 0 14px 34px -10px hsl(231 55% 12% / 0.14), 0 2px 6px hsl(231 55% 12% / 0.06);
+    --shadow-band: 0 32px 70px -28px hsl(231 55% 12% / 0.3), 0 8px 20px -14px hsl(231 55% 12% / 0.16);
+    --shadow-receipt: 0 40px 80px -30px hsl(231 55% 12% / 0.34), 0 10px 24px -14px hsl(231 55% 12% / 0.18);
+    --shadow-focus: 0 0 0 3px hsl(var(--ring) / 0.28);
+    --inset-hairline: inset 0 1px 0 hsl(0 0% 100% / 0.06);
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --background: 231 55% 9%;
+    --foreground: 228 30% 96%;
+    --card: 231 38% 13%;
+    --card-foreground: 228 30% 96%;
+    --popover: 231 38% 13%;
+    --popover-foreground: 228 30% 96%;
+
+    --primary: 238 80% 72%;
+    --primary-foreground: 231 55% 9%;
+    --primary-hover: 238 88% 78%;
+    --primary-active: 238 78% 66%;
+    --primary-soft: 238 40% 18%;
+    --primary-soft-strong: 238 35% 26%;
+    --primary-on-band: 238 100% 84%;
+
+    --secondary: 231 34% 16%;
+    --secondary-foreground: 228 30% 96%;
+    --muted: 231 34% 16%;
+    --muted-foreground: 228 18% 63%;
+    --accent: 238 40% 18%;
+    --accent-foreground: 238 85% 88%;
+    --destructive: 0 62% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 230 25% 22%;
+    --border-strong: 230 20% 34%;
+    --input: 230 25% 22%;
+    --ring: 238 80% 72%;
+
+    --band: 232 60% 5%;
+    --band-2: 231 60% 3%;
+    --band-foreground: 228 30% 93%;
+    --band-muted: 228 18% 65%;
+    --band-card: 231 40% 12%;
+    --band-border: 231 30% 20%;
+    --band-hover: 231 34% 17%;
+
+    --cta-soft: 238 42% 15%;
+    --cta-soft-border: 238 35% 26%;
+
+    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4);
+    --shadow-card-hover: 0 16px 38px -12px hsl(0 0% 0% / 0.6);
+    --shadow-band: 0 34px 74px -26px hsl(0 0% 0% / 0.75);
+    --shadow-receipt: 0 44px 90px -30px hsl(0 0% 0% / 0.85), 0 0 0 1px hsl(0 0% 100% / 0.05);
+    --shadow-focus: 0 0 0 3px hsl(var(--ring) / 0.35);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+  }
+
+  :where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-[1200px] px-5 sm:px-7 lg:px-10;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11.5px] font-medium uppercase tracking-[0.16em] text-primary;
+  }
+
+  .card-surface {
+    @apply rounded-lg border border-border bg-card shadow-card;
+  }
+
+  .band-surface {
+    background-color: hsl(var(--band));
+    background-image: linear-gradient(180deg, hsl(var(--band)) 0%, hsl(var(--band-2)) 100%);
+  }
+
+  .band-card {
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--band-border));
+    background-color: hsl(var(--band-card));
+    box-shadow: var(--shadow-band), var(--inset-hairline);
+  }
+
+  .hairline {
+    box-shadow: var(--inset-hairline);
+  }
+
+  .hero-glow {
+    background-image: radial-gradient(58% 52% at 82% 2%, hsl(var(--primary) / 0.11) 0%, transparent 68%),
+      radial-gradient(46% 42% at 2% 98%, hsl(var(--primary) / 0.06) 0%, transparent 72%);
+  }
+
+  .tnum {
+    font-feature-settings: "tnum" 1, "zero" 1;
+  }
+
+  .receipt {
+    position: relative;
+    background-color: hsl(var(--receipt));
+    background-image: linear-gradient(180deg, hsl(var(--receipt)) 0%, hsl(38 62% 90%) 100%);
+    color: hsl(var(--receipt-ink));
+    border-radius: 3px 3px 0 0;
+    box-shadow: var(--shadow-receipt);
+  }
+
+  .receipt-tear {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -9px;
+    height: 10px;
+    background-color: hsl(var(--receipt));
+    -webkit-mask-image: radial-gradient(circle 5px at 6px 10px, transparent 4.6px, #000 5px);
+    mask-image: radial-gradient(circle 5px at 6px 10px, transparent 4.6px, #000 5px);
+    -webkit-mask-size: 12px 10px;
+    mask-size: 12px 10px;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
