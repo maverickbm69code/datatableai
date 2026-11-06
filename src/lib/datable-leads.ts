@@ -16,12 +16,24 @@ const SOURCE_LABELS: Record<LeadSource, string> = {
   footer: "Appel final",
 };
 
+const OFFER_LABELS: Record<string, string> = {
+  "coffee-shop": "Coffee Shop (199 € HT/mois)",
+  restaurant: "Restaurant (299 € HT/mois)",
+  brasserie: "Brasserie (449 € HT/mois)",
+  gastronomique: "Gastronomique & Étoilé (699 € HT/mois)",
+};
+
 // Leads go to Netlify Forms (form "lead", declared in public/__forms.html).
-export async function submitLead(email: string, source: LeadSource): Promise<SubmitLeadResult> {
+export async function submitLead(
+  email: string,
+  source: LeadSource,
+  offer?: string,
+): Promise<SubmitLeadResult> {
   const body = new URLSearchParams({
     "form-name": "lead",
     subject: `Nouveau lead Datable : ${email}`,
     source: SOURCE_LABELS[source],
+    offer: offer ? (OFFER_LABELS[offer] ?? offer) : "",
     email,
     "bot-field": "",
   });

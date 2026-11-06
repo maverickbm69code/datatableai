@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "#fonctionnement", label: "Fonctionnement" },
-  { href: "#abonnements", label: "Abonnements" },
+  { href: "#offres", label: "Nos offres" },
   { href: "#confidentialite", label: "Confidentialité" },
 ];
 

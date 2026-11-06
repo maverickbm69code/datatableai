@@ -6,7 +6,7 @@ import { RevealWords } from "@/components/motion/reveal-words";
 import { HeroTickets } from "@/components/site/hero-tickets";
 import { LeadForm } from "@/components/site/lead-form";
 
-const PROMISES = ["1er mois offert", "Aucune installation", "Sans engagement"];
+const PROMISES = ["1er mois offert", "Aucune installation", "Visite mensuelle incluse"];
 
 export function HeroSection() {
   return (

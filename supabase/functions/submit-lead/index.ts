@@ -20,7 +20,14 @@ const sourceLabel: Record<string, string> = {
   footer: "Appel final",
 };
 
-async function sendOwnerNotification(email: string, source: string) {
+const offerLabel: Record<string, string> = {
+  "coffee-shop": "Coffee Shop (199 € HT/mois)",
+  restaurant: "Restaurant (299 € HT/mois)",
+  brasserie: "Brasserie (449 € HT/mois)",
+  gastronomique: "Gastronomique & Étoilé (699 € HT/mois)",
+};
+
+async function sendOwnerNotification(email: string, source: string, offer: string | null) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const to = Deno.env.get("LEAD_NOTIFICATION_EMAIL");
   const from = Deno.env.get("LEAD_NOTIFICATION_FROM") ?? "Datable <onboarding@resend.dev>";
@@ -50,6 +57,7 @@ async function sendOwnerNotification(email: string, source: string) {
           "",
           `E-mail : ${email}`,
           `Formulaire : ${sourceLabel[source] ?? source}`,
+          ...(offer ? [`Offre choisie : ${offerLabel[offer]}`] : []),
           `Reçu le : ${receivedAt} (Paris)`,
         ].join("\n"),
       }),
@@ -71,6 +79,7 @@ Deno.serve(async (req) => {
   try {
     const body = await req.json().catch(() => ({}));
     const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const offer = typeof body.offer === "string" && body.offer in offerLabel ? body.offer : null;
     const source = body.source === "hero" || body.source === "footer" ? body.source : null;
 
     if (!source) {
@@ -104,7 +113,7 @@ Deno.serve(async (req) => {
     }
 
     console.log("[submit-lead] lead enregistré", source, email);
-    await sendOwnerNotification(email, source);
+    await sendOwnerNotification(email, source, offer);
 
     return json({ ok: true });
   } catch (error) {

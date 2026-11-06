@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { submitLead, type LeadSource } from "@/lib/datable-leads";
 import { EASE_OUT } from "@/lib/motion";
+import { selectOffer, useSelectedOffer } from "@/lib/selected-offer";
 import { cn } from "@/lib/utils";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
@@ -19,6 +20,9 @@ export function LeadForm({ source, className }: LeadFormProps) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [error, setError] = useState<string | null>(null);
+
+  const offer = useSelectedOffer();
+  const shownOffer = source === "footer" ? offer : null;
 
   const inputId = `${source}-lead-email`;
   const errorId = `${source}-lead-error`;
@@ -36,7 +40,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
     setError(null);
     setStatus("loading");
 
-    const result = await submitLead(value, source);
+    const result = await submitLead(value, source, shownOffer?.id);
     if (!result.ok) {
       setStatus("idle");
       setError(result.error ?? "Envoi impossible pour le moment. Merci de réessayer.");
@@ -74,6 +78,20 @@ export function LeadForm({ source, className }: LeadFormProps) {
             noValidate
           >
             <div className="flex-1">
+              {shownOffer ? (
+                <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-border bg-primary-soft px-3 py-2 text-[13.5px] text-foreground">
+                  <span>
+                    Offre choisie : <strong className="font-semibold">{shownOffer.name}</strong>, {shownOffer.price} HT / mois
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => selectOffer(null)}
+                    className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
+                  >
+                    Retirer
+                  </button>
+                </p>
+              ) : null}
               <label
                 htmlFor={inputId}
                 className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
