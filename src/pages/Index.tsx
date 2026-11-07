@@ -4,7 +4,10 @@ import { DarkBandSection } from "@/components/site/dark-band-section";
 import { FinalCtaSection } from "@/components/site/final-cta-section";
 import { FounderSection } from "@/components/site/founder-section";
 import { HeroSection } from "@/components/site/hero-section";
-import { PricingSection } from "@/components/site/pricing-section";
+import { HumanSection } from "@/components/site/human-section";
+import { OffersSection } from "@/components/site/offers-section";
+import { PromiseSection } from "@/components/site/promise-section";
+import { WatchSection } from "@/components/site/watch-section";
 import { PrivacySection } from "@/components/site/privacy-section";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
@@ -23,7 +26,13 @@ const Index = () => {
         <CutleryDivider />
         <DarkBandSection />
         <CutleryDivider />
-        <PricingSection />
+        <OffersSection />
+        <CutleryDivider />
+        <WatchSection />
+        <CutleryDivider />
+        <HumanSection />
+        <CutleryDivider />
+        <PromiseSection />
         <CutleryDivider />
         <PrivacySection />
         <CutleryDivider />
