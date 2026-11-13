@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { useCopy } from "@/lib/i18n";
 import { EASE_OUT, REVEAL_VIEWPORT } from "@/lib/motion";
 
 type Step = {
@@ -10,7 +11,7 @@ type Step = {
   body: string;
 };
 
-const STEPS: Step[] = [
+const STEPS_FR: Step[] = [
   {
     index: "01",
     title: "Vous exportez",
@@ -27,6 +28,37 @@ const STEPS: Step[] = [
     body: "Un rapport clair et 30 minutes ensemble : quoi faire, sur quelle base, combien ça rapporte.",
   },
 ];
+
+const STEPS_EN: Step[] = [
+  {
+    index: "01",
+    title: "You export",
+    body: "One month of sales from your POS. Nothing to install, no access to your software.",
+  },
+  {
+    index: "02",
+    title: "We analyze",
+    body: "Your numbers compared with your best shifts and with restaurants in your market.",
+  },
+  {
+    index: "03",
+    title: "We walk you through it",
+    body: "A clear report and 30 minutes together: what to do, why, and how much it will bring in.",
+  },
+];
+
+const COPY = {
+  fr: {
+    steps: STEPS_FR,
+    eyebrow: "Comment ça marche",
+    title: "Dix minutes de votre temps, un plan d'action en une semaine.",
+  },
+  en: {
+    steps: STEPS_EN,
+    eyebrow: "How it works",
+    title: "Ten minutes of your time, an action plan within a week.",
+  },
+};
 
 /** Hand-drawn stroke that draws itself above each step. */
 function StepStroke({ delay }: { delay: number }) {
@@ -50,16 +82,17 @@ function StepStroke({ delay }: { delay: number }) {
 }
 
 export function StepsSection() {
+  const t = useCopy(COPY);
   return (
     <section id="fonctionnement" className="py-20 md:py-28">
       <div className="shell">
         <SectionHeading
-          eyebrow="Comment ça marche"
-          title="Dix minutes de votre temps, un plan d'action en une semaine."
+          eyebrow={t.eyebrow}
+          title={t.title}
         />
 
         <ol className="mt-14 grid gap-12 lg:grid-cols-3 lg:gap-10">
-          {STEPS.map((step, index) => (
+          {t.steps.map((step, index) => (
             <li key={step.index}>
               <Reveal delay={index * 0.12} y={16}>
                 <StepStroke delay={index * 0.14} />

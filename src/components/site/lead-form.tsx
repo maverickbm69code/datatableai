@@ -5,11 +5,39 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { submitLead, type LeadSource } from "@/lib/datable-leads";
+import { useCopy, useLang } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { selectOffer, useSelectedOffer } from "@/lib/selected-offer";
 import { cn } from "@/lib/utils";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/;
+
+const COPY = {
+  fr: {
+    invalid: "Merci de vérifier votre adresse e-mail.",
+    failed: "Envoi impossible pour le moment. Merci de réessayer.",
+    success: "Merci ! On vous recontacte sous 48 heures.",
+    chosen: "Offre choisie :",
+    perMonth: "HT / mois",
+    remove: "Retirer",
+    label: "Votre e-mail professionnel",
+    placeholder: "votre@restaurant.fr",
+    sending: "Envoi…",
+    submit: "Être contacté",
+  },
+  en: {
+    invalid: "Please check your email address.",
+    failed: "We couldn't send your request right now. Please try again.",
+    success: "Thank you! We'll get back to you within 48 hours.",
+    chosen: "Selected plan:",
+    perMonth: "excl. tax / month",
+    remove: "Remove",
+    label: "Your work email",
+    placeholder: "you@restaurant.com",
+    sending: "Sending…",
+    submit: "Get in touch",
+  },
+};
 
 type LeadFormProps = {
   source: LeadSource;
@@ -21,6 +49,8 @@ export function LeadForm({ source, className }: LeadFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [error, setError] = useState<string | null>(null);
 
+  const lang = useLang();
+  const t = useCopy(COPY);
   const offer = useSelectedOffer();
   const shownOffer = source === "footer" ? offer : null;
 
@@ -33,17 +63,17 @@ export function LeadForm({ source, className }: LeadFormProps) {
 
     const value = email.trim();
     if (!EMAIL_RE.test(value)) {
-      setError("Merci de vérifier votre adresse e-mail.");
+      setError(t.invalid);
       return;
     }
 
     setError(null);
     setStatus("loading");
 
-    const result = await submitLead(value, source, shownOffer?.id);
+    const result = await submitLead(value, source, shownOffer?.id, lang);
     if (!result.ok) {
       setStatus("idle");
-      setError(result.error ?? "Envoi impossible pour le moment. Merci de réessayer.");
+      setError(t.failed);
       return;
     }
 
@@ -65,7 +95,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
           >
             <Check className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
             <p className="text-[15px] leading-relaxed text-foreground">
-              Merci ! On vous recontacte sous 48 heures.
+              {t.success}
             </p>
           </motion.div>
         ) : (
@@ -81,14 +111,14 @@ export function LeadForm({ source, className }: LeadFormProps) {
               {shownOffer ? (
                 <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-border bg-primary-soft px-3 py-2 text-[13.5px] text-foreground">
                   <span>
-                    Offre choisie : <strong className="font-semibold">{shownOffer.name}</strong>, {shownOffer.price} HT / mois
+                    {t.chosen} <strong className="font-semibold">{shownOffer.name}</strong>, {shownOffer.price} {t.perMonth}
                   </span>
                   <button
                     type="button"
                     onClick={() => selectOffer(null)}
                     className="text-muted-foreground underline underline-offset-4 hover:text-foreground"
                   >
-                    Retirer
+                    {t.remove}
                   </button>
                 </p>
               ) : null}
@@ -96,7 +126,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
                 htmlFor={inputId}
                 className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
               >
-                Votre e-mail professionnel
+                {t.label}
               </label>
               <Input
                 id={inputId}
@@ -104,7 +134,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
                 type="email"
                 inputMode="email"
                 autoComplete="email"
-                placeholder="votre@restaurant.fr"
+                placeholder={t.placeholder}
                 value={email}
                 onChange={(event) => {
                   setEmail(event.target.value);
@@ -121,7 +151,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
                 {status === "loading" ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                 ) : null}
-                {status === "loading" ? "Envoi…" : "Être contacté"}
+                {status === "loading" ? t.sending : t.submit}
                 {status === "loading" ? null : <ArrowRight className="h-4 w-4" aria-hidden="true" />}
               </Button>
             </div>

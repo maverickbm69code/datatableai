@@ -1,12 +1,13 @@
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { useCopy } from "@/lib/i18n";
 
 type Commitment = {
   title: string;
   body: string;
 };
 
-const COMMITMENTS: Commitment[] = [
+const COMMITMENTS_FR: Commitment[] = [
   {
     title: "Accord signé d'abord",
     body: "Confidentialité signée avant tout export.",
@@ -33,14 +34,29 @@ const COMMITMENTS: Commitment[] = [
   },
 ];
 
+const COMMITMENTS_EN: Commitment[] = [
+  { title: "Agreement signed first", body: "A confidentiality agreement is signed before any export." },
+  { title: "Never resold", body: "Your POS data is never shared or sold." },
+  { title: "Anonymous comparisons", body: "No restaurant names, only averages." },
+  { title: "Your team is protected", body: "Server names are replaced with a code." },
+  { title: "Deleted on request", body: "And when your subscription ends." },
+  { title: "GDPR compliant", body: "Hosted in the European Union." },
+];
+
+const COPY = {
+  fr: { items: COMMITMENTS_FR, eyebrow: "Confidentialité", title: "Vos chiffres restent les vôtres." },
+  en: { items: COMMITMENTS_EN, eyebrow: "Privacy", title: "Your numbers stay yours." },
+};
+
 export function PrivacySection() {
+  const t = useCopy(COPY);
   return (
     <section id="confidentialite" className="py-20 md:py-28">
       <div className="shell">
-        <SectionHeading eyebrow="Confidentialité" title="Vos chiffres restent les vôtres." />
+        <SectionHeading eyebrow={t.eyebrow} title={t.title} />
 
         <ul className="mt-14 grid gap-x-12 gap-y-8 md:grid-cols-2">
-          {COMMITMENTS.map((commitment, index) => (
+          {t.items.map((commitment, index) => (
             <Reveal key={commitment.title} delay={index * 0.06} y={14}>
               <li className="flex gap-5">
                 <span

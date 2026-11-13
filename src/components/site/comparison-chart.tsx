@@ -2,6 +2,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 
 import { CountUp } from "@/components/motion/count-up";
+import { useCopy } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -13,11 +14,28 @@ type Metric = {
   suffix?: string;
 };
 
-const METRICS: Metric[] = [
-  { label: "Part des boissons", restaurant: 30.4, market: 32, decimals: 1, suffix: " %" },
-  { label: "Cafés par couvert", restaurant: 0.12, market: 0.2, decimals: 2 },
-  { label: "Entrées par couvert", restaurant: 0.6, market: 0.47, decimals: 2 },
-];
+const COPY = {
+  fr: {
+    title: "Face à votre marché",
+    you: "Votre restaurant",
+    peers: "Restaurants comparables",
+    metrics: [
+      { label: "Part des boissons", restaurant: 30.4, market: 32, decimals: 1, suffix: " %" },
+      { label: "Cafés par couvert", restaurant: 0.12, market: 0.2, decimals: 2 },
+      { label: "Entrées par couvert", restaurant: 0.6, market: 0.47, decimals: 2 },
+    ] as Metric[],
+  },
+  en: {
+    title: "How you compare to your market",
+    you: "Your restaurant",
+    peers: "Comparable restaurants",
+    metrics: [
+      { label: "Drinks share", restaurant: 30.4, market: 32, decimals: 1, suffix: "%" },
+      { label: "Coffees per cover", restaurant: 0.12, market: 0.2, decimals: 2 },
+      { label: "Starters per cover", restaurant: 0.6, market: 0.47, decimals: 2 },
+    ] as Metric[],
+  },
+};
 
 type BarRowProps = {
   label: string;
@@ -67,15 +85,16 @@ export function ComparisonChart({ className }: { className?: string }) {
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const active = useInView(ref, { once: true, amount: 0.3 });
+  const t = useCopy(COPY);
 
   return (
     <div ref={ref} className={cn("band-card p-6 md:p-7", className)}>
       <h3 className="font-display text-[17px] font-semibold tracking-[-0.02em] text-band-foreground">
-        Face à votre marché
+        {t.title}
       </h3>
 
       <ul className="mt-6 flex flex-col gap-6">
-        {METRICS.map((metric, index) => {
+        {t.metrics.map((metric, index) => {
           const max = Math.max(metric.restaurant, metric.market);
           const baseDelay = reduced ? 0 : 0.15 + index * 0.12;
           return (
@@ -85,7 +104,7 @@ export function ComparisonChart({ className }: { className?: string }) {
               </p>
               <div className="mt-3 flex flex-col gap-2.5">
                 <BarRow
-                  label="Votre restaurant"
+                  label={t.you}
                   value={metric.restaurant}
                   ratio={metric.restaurant / max}
                   decimals={metric.decimals}
@@ -95,7 +114,7 @@ export function ComparisonChart({ className }: { className?: string }) {
                   highlight
                 />
                 <BarRow
-                  label="Restaurants comparables"
+                  label={t.peers}
                   value={metric.market}
                   ratio={metric.market / max}
                   decimals={metric.decimals}
@@ -112,11 +131,11 @@ export function ComparisonChart({ className }: { className?: string }) {
       <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-band-border pt-5">
         <span className="flex items-center gap-2 text-[12.5px] text-band-muted">
           <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
-          Votre restaurant
+          {t.you}
         </span>
         <span className="flex items-center gap-2 text-[12.5px] text-band-muted">
           <span className="h-2 w-2 rounded-full bg-band-muted/45" aria-hidden="true" />
-          Restaurants comparables
+          {t.peers}
         </span>
       </div>
     </div>

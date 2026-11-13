@@ -1,4 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
+import type { Lang } from "@/lib/i18n";
 
 export type LeadSource = "hero" | "footer";
 
@@ -28,6 +29,7 @@ export async function submitLead(
   email: string,
   source: LeadSource,
   offer?: string,
+  lang: Lang = "fr",
 ): Promise<SubmitLeadResult> {
   const body = new URLSearchParams({
     "form-name": "lead",
@@ -35,6 +37,7 @@ export async function submitLead(
     source: SOURCE_LABELS[source],
     offer: offer ? (OFFER_LABELS[offer] ?? offer) : "",
     email,
+    language: lang === "en" ? "Anglais" : "Français",
     "bot-field": "",
   });
 
