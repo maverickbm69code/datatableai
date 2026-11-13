@@ -35,12 +35,12 @@ const COMMITMENTS_FR: Commitment[] = [
 ];
 
 const COMMITMENTS_EN: Commitment[] = [
-  { title: "Agreement signed first", body: "A confidentiality agreement is signed before any export." },
-  { title: "Never resold", body: "Your POS data is never shared or sold." },
-  { title: "Anonymous comparisons", body: "No restaurant names, only averages." },
-  { title: "Your team is protected", body: "Server names are replaced with a code." },
-  { title: "Deleted on request", body: "And when your subscription ends." },
-  { title: "GDPR compliant", body: "Hosted in the European Union." },
+  { title: "NDA signed first", body: "A confidentiality agreement is signed before any data leaves your POS." },
+  { title: "Never sold", body: "Your POS data is never shared, sold or resold." },
+  { title: "Anonymous benchmarks", body: "No restaurant names, only averages." },
+  { title: "Your staff stays protected", body: "Server names are replaced with an ID code." },
+  { title: "Deleted on request", body: "And automatically when your subscription ends." },
+  { title: "GDPR compliant", body: "Data hosted in the European Union." },
 ];
 
 const COPY = {

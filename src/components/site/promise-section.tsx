@@ -21,16 +21,16 @@ const COPY = {
   },
   en: {
     eyebrow: "Our promise",
-    title: "Know your numbers. Understand your neighbors. Make the right calls.",
+    title: "Know your numbers. Know your competition. Make the right calls.",
     paragraphs: [
-      "DaTable is more than data analysis software.",
-      "It's a hands-on partner that helps restaurant owners understand their performance, keep a daily eye on local competitors and make better decisions.",
+      "DaTable is more than data analytics software.",
+      "We're a hands-on partner that helps restaurant operators understand their performance, keep a daily eye on the local competition and make smarter decisions.",
     ],
     team: [
-      "Our artificial intelligence delivers the analysis.",
-      "Our team brings experience, a listening ear and real human support.",
+      "Our AI delivers the insights.",
+      "Our team brings industry experience, a real ear for your needs and genuine one-on-one support.",
     ],
-    cta: "Discover DaTable",
+    cta: "See how DaTable works",
   },
 };
 

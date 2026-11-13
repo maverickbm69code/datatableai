@@ -1,4 +1,4 @@
-import { ChefHat, Euro, MessageSquareText } from "lucide-react";
+import { ChefHat, DollarSign, Euro, MessageSquareText } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
@@ -27,18 +27,18 @@ const ITEMS_FR: WatchItem[] = [
 
 const ITEMS_EN: WatchItem[] = [
   {
-    title: "New products and offers",
-    body: "See the new dishes, products, set menus and promotions launched by nearby restaurants.",
+    title: "New menu items and promotions",
+    body: "See the new dishes, products, prix fixe menus, specials and promotions rolled out by restaurants nearby.",
     icon: ChefHat,
   },
   {
     title: "Price changes",
-    body: "Track pricing changes and the market positioning of your closest competitors.",
-    icon: Euro,
+    body: "Keep tabs on menu price changes and how your closest competitors are positioning themselves.",
+    icon: DollarSign,
   },
   {
-    title: "Trends and customer reviews",
-    body: "Spot emerging trends, public reviews and the new expectations customers are voicing.",
+    title: "Trends and guest reviews",
+    body: "Spot emerging trends, public reviews and what guests are starting to expect.",
     icon: MessageSquareText,
   },
 ];
@@ -59,12 +59,12 @@ const COPY = {
   },
   en: {
     items: ITEMS_EN,
-    eyebrow: "Daily competitor monitoring",
-    title: "Your competitors change every day. Stay one step ahead.",
+    eyebrow: "Daily competitor tracking",
+    title: "Your competition changes every day. Stay one step ahead.",
     intro:
-      "DaTable doesn't run a one-off market study. Our technology monitors your competitive landscape every day, so you understand what's changing around your restaurant.",
-    quote: "Don't just look at your own numbers. Understand what's happening around you, too.",
-    note: "Monitoring based on public information only: never on your neighbors' sales or private data.",
+      "DaTable isn't a one-time market study. Our technology tracks your local competition every single day, so you always know what's changing around your restaurant.",
+    quote: "Stop looking only at your own numbers. Know what's happening on your block, too.",
+    note: "Based on public information only: never on other restaurants' sales or private data.",
   },
 };
 

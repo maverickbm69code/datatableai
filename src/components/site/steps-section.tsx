@@ -33,17 +33,17 @@ const STEPS_EN: Step[] = [
   {
     index: "01",
     title: "You export",
-    body: "One month of sales from your POS. Nothing to install, no access to your software.",
+    body: "One month of sales data from your POS. Nothing to install, and we never need access to your system.",
   },
   {
     index: "02",
     title: "We analyze",
-    body: "Your numbers compared with your best shifts and with restaurants in your market.",
+    body: "Your numbers benchmarked against your own best shifts and against restaurants in your market.",
   },
   {
     index: "03",
     title: "We walk you through it",
-    body: "A clear report and 30 minutes together: what to do, why, and how much it will bring in.",
+    body: "A clear report and a 30-minute sit-down: what to do, why, and how much it's worth to you.",
   },
 ];
 
@@ -56,7 +56,7 @@ const COPY = {
   en: {
     steps: STEPS_EN,
     eyebrow: "How it works",
-    title: "Ten minutes of your time, an action plan within a week.",
+    title: "Ten minutes of your time. An action plan within a week.",
   },
 };
 

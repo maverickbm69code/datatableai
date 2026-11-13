@@ -22,17 +22,16 @@ const COPY = {
     promises: ["1er mois offert", "Aucune installation", "Visite mensuelle incluse"],
   },
   en: {
-    eyebrow: "Revenue analysis for restaurants",
+    eyebrow: "Sales analytics for restaurants",
     words: [
       { text: "The" },
-      { text: "money" },
-      { text: "is" },
+      { text: "money's" },
       { text: "already" },
       { text: "in" },
       { text: "your", accent: true },
       { text: "register.", accent: true },
     ],
-    lead: "Datable analyzes your POS sales and tells you, in hard numbers, how to grow your revenue. Then we track the results with you, every month.",
+    lead: "Datable analyzes your POS sales and shows you, in dollars, exactly how to grow your top line. Then we track the results with you, month after month.",
     promises: ["First month free", "Nothing to install", "Monthly on-site visit included"],
   },
 };

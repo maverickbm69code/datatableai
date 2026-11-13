@@ -11,6 +11,8 @@ export type TicketRow = {
   value: number;
   prefix?: string;
   suffix?: string;
+  /** Amount in money: shown in € (French) or $ (English). */
+  currency?: boolean;
   gain?: boolean;
 };
 
@@ -21,7 +23,6 @@ type PaperTicketProps = {
   rows: TicketRow[];
   totalLabel: string;
   totalValue: number;
-  totalSuffix?: string;
   footerNote?: string;
   footerSignOff?: string;
   className?: string;
@@ -40,7 +41,6 @@ export function PaperTicket({
   rows,
   totalLabel,
   totalValue,
-  totalSuffix = " €",
   footerNote,
   footerSignOff,
   className,
@@ -114,6 +114,7 @@ export function PaperTicket({
                   delay={delay + 0.12}
                   prefix={row.prefix}
                   suffix={row.suffix}
+                  currency={row.currency}
                 />
               </p>
             </motion.div>
@@ -132,7 +133,7 @@ export function PaperTicket({
             {totalLabel}
           </span>
           <span className="font-mono text-[26px] font-medium leading-none text-receipt-ink">
-            <CountUp value={totalValue} active={started} delay={totalDelay + 0.24} suffix={totalSuffix} />
+            <CountUp value={totalValue} active={started} delay={totalDelay + 0.24} currency />
           </span>
         </div>
       </motion.div>

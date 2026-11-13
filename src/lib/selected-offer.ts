@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-export type SelectedOffer = { id: string; name: string; price: string } | null;
+export type SelectedOffer = { id: string; name: string; price: number } | null;
 
 let current: SelectedOffer = null;
 const listeners = new Set<() => void>();
