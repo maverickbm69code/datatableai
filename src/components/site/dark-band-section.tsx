@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { FlipWords } from "@/components/motion/flip-words";
 import { Reveal } from "@/components/motion/reveal";
 import { ComparisonChart } from "@/components/site/comparison-chart";
+import { useCopy } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 
 type Point = {
@@ -10,7 +11,7 @@ type Point = {
   body: string;
 };
 
-const POINTS: Point[] = [
+const POINTS_FR: Point[] = [
   {
     title: "De vraies analyses",
     body: "3 058 tickets et 7 747 couverts passés au crible en un mois.",
@@ -25,8 +26,45 @@ const POINTS: Point[] = [
   },
 ];
 
+const POINTS_EN: Point[] = [
+  {
+    title: "Real analysis",
+    body: "3,058 tickets and 7,747 covers combed through in a single month.",
+  },
+  {
+    title: "Over 30 restaurants",
+    body: "An existing portfolio, so comparisons are solid from the very first month.",
+  },
+  {
+    title: "Always anonymous",
+    body: "You see where you stand, never the names of the others.",
+  },
+];
+
+const COPY = {
+  fr: {
+    points: POINTS_FR,
+    words: [
+      { text: "Faites" },
+      { text: "mieux" },
+      { text: "que" },
+      { text: "vos", accent: true },
+      { text: "concurrents.", accent: true },
+    ],
+  },
+  en: {
+    points: POINTS_EN,
+    words: [
+      { text: "Outperform" },
+      { text: "your", accent: true },
+      { text: "competitors.", accent: true },
+    ],
+  },
+};
+
 export function DarkBandSection() {
   const reduced = useReducedMotion();
+  const t = useCopy(COPY);
 
   return (
     <section id="preuve" className="py-16 md:py-24">
@@ -42,19 +80,14 @@ export function DarkBandSection() {
             <h2 className="text-balance font-display text-[clamp(1.85rem,3.8vw,2.75rem)] font-bold leading-[1.06] tracking-[-0.04em] text-band-foreground">
               <FlipWords
                 baseDelay={0.15}
-                words={[
-                  { text: "Faites" },
-                  { text: "mieux" },
-                  { text: "que" },
-                  { text: "vos", accent: true },
-                  { text: "concurrents.", accent: true },
-                ]}
+                key={t.points[0].title}
+                words={t.words}
                 accentClassName="text-primary-on-band"
               />
             </h2>
 
             <ul className="mt-10 flex flex-col">
-              {POINTS.map((point, index) => (
+              {t.points.map((point, index) => (
                 <Reveal key={point.title} delay={0.2 + index * 0.09} y={14}>
                   <li className="border-t border-band-border py-6 last:border-b">
                     <div className="flex gap-5">

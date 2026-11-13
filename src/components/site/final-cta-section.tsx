@@ -1,7 +1,22 @@
 import { Reveal } from "@/components/motion/reveal";
 import { LeadForm } from "@/components/site/lead-form";
+import { useCopy } from "@/lib/i18n";
+
+const COPY = {
+  fr: {
+    title: "Votre premier mois est offert.",
+    body: "Laissez votre e-mail : on vous recontacte sous 48 heures pour organiser l'export de vos ventes.",
+    direct: "Ou directement :",
+  },
+  en: {
+    title: "Your first month is on us.",
+    body: "Leave your email and we'll get back to you within 48 hours to set up your sales export.",
+    direct: "Or call us directly:",
+  },
+};
 
 export function FinalCtaSection() {
+  const t = useCopy(COPY);
   return (
     <section id="diagnostic" className="py-16 md:py-24">
       <div className="shell">
@@ -18,14 +33,13 @@ export function FinalCtaSection() {
           <div className="relative flex flex-col items-center">
             <Reveal y={12}>
               <h2 className="text-balance font-display text-[clamp(1.85rem,4vw,2.75rem)] font-bold leading-[1.06] tracking-[-0.04em] text-foreground">
-                Votre premier mois est offert.
+                {t.title}
               </h2>
             </Reveal>
 
             <Reveal delay={0.08} y={12}>
               <p className="mt-5 max-w-[36rem] text-pretty text-[16.5px] leading-relaxed text-muted-foreground">
-                Laissez votre e-mail : on vous recontacte sous 48 heures pour organiser l'export de vos
-                ventes.
+                {t.body}
               </p>
             </Reveal>
 
@@ -37,7 +51,7 @@ export function FinalCtaSection() {
 
             <Reveal delay={0.24} y={10}>
               <p className="mt-7 text-[15px] text-muted-foreground">
-                Ou directement :{" "}
+                {t.direct}{" "}
                 <a
                   href="tel:+33695992662"
                   className="font-medium text-foreground underline decoration-border-strong underline-offset-4 transition-colors hover:text-primary"

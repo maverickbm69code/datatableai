@@ -2,21 +2,47 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { DatableWordmark } from "@/components/site/logo-mark";
 import { ReadingProgress } from "@/components/site/reading-progress";
 import { Button } from "@/components/ui/button";
+import { useCopy } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [
-  { href: "#fonctionnement", label: "Fonctionnement" },
-  { href: "#offres", label: "Nos offres" },
-  { href: "#confidentialite", label: "Confidentialité" },
-];
+const COPY = {
+  fr: {
+    nav: [
+      { href: "#fonctionnement", label: "Fonctionnement" },
+      { href: "#offres", label: "Nos offres" },
+      { href: "#confidentialite", label: "Confidentialité" },
+    ],
+    home: "Datable, retour en haut de page",
+    mainNav: "Navigation principale",
+    mobileNav: "Navigation mobile",
+    cta: "Mon diagnostic offert",
+    openMenu: "Ouvrir le menu",
+    closeMenu: "Fermer le menu",
+  },
+  en: {
+    nav: [
+      { href: "#fonctionnement", label: "How it works" },
+      { href: "#offres", label: "Plans" },
+      { href: "#confidentialite", label: "Privacy" },
+    ],
+    home: "Datable, back to top",
+    mainNav: "Main navigation",
+    mobileNav: "Mobile navigation",
+    cta: "Get my free analysis",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+  },
+};
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const t = useCopy(COPY);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -47,12 +73,12 @@ export function SiteHeader() {
           scrolled ? "h-14" : "h-16",
         )}
       >
-        <a href="#hero" className="rounded-sm" aria-label="Datable, retour en haut de page">
+        <a href="#hero" className="rounded-sm" aria-label={t.home}>
           <DatableWordmark />
         </a>
 
-        <nav aria-label="Navigation principale" className="hidden items-center gap-1 lg:flex">
-          {NAV_ITEMS.map((item) => (
+        <nav aria-label={t.mainNav} className="hidden items-center gap-1 lg:flex">
+          {t.nav.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -64,14 +90,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href="#diagnostic">Mon diagnostic offert</a>
+            <a href="#diagnostic">{t.cta}</a>
           </Button>
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
-            aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+            aria-label={menuOpen ? t.closeMenu : t.openMenu}
             className="inline-flex h-11 w-11 items-center justify-center rounded-sm text-foreground transition-colors hover:bg-primary-soft lg:hidden"
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -91,8 +118,8 @@ export function SiteHeader() {
             transition={{ duration: 0.24, ease: EASE_OUT }}
             className="absolute inset-x-0 top-full border-b border-border bg-background px-5 pb-6 pt-2 shadow-card lg:hidden"
           >
-            <nav aria-label="Navigation mobile" className="flex flex-col">
-              {NAV_ITEMS.map((item) => (
+            <nav aria-label={t.mobileNav} className="flex flex-col">
+              {t.nav.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -105,7 +132,7 @@ export function SiteHeader() {
             </nav>
             <Button asChild size="lg" className="mt-6 w-full">
               <a href="#diagnostic" onClick={() => setMenuOpen(false)}>
-                Mon diagnostic offert
+                {t.cta}
               </a>
             </Button>
           </motion.div>

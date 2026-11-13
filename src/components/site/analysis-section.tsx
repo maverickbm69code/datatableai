@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
+import { useCopy } from "@/lib/i18n";
 
 type AnalysisCard = {
   icon: LucideIcon;
@@ -10,7 +11,7 @@ type AnalysisCard = {
   body: string;
 };
 
-const CARDS: AnalysisCard[] = [
+const CARDS_FR: AnalysisCard[] = [
   {
     icon: Wine,
     title: "Plus de CA par couvert",
@@ -33,17 +34,42 @@ const CARDS: AnalysisCard[] = [
   },
 ];
 
+const CARDS_EN: AnalysisCard[] = [
+  { icon: Wine, title: "More revenue per cover", body: "Drinks, coffees, desserts." },
+  { icon: Users, title: "A team that keeps improving", body: "Each server compared with the best in the house." },
+  {
+    icon: NotebookText,
+    title: "A menu that pays off",
+    body: "Best sellers, dishes that don't move, wines gathering dust in the cellar.",
+  },
+  { icon: BadgeCheck, title: "Numbers you can trust", body: "POS setup errors spotted and flagged." },
+];
+
+const COPY = {
+  fr: {
+    cards: CARDS_FR,
+    eyebrow: "Ce qu'on analyse",
+    title: "Des actions concrètes, chacune avec son gain en euros.",
+  },
+  en: {
+    cards: CARDS_EN,
+    eyebrow: "What we analyze",
+    title: "Concrete actions, each one with its gain in euros.",
+  },
+};
+
 export function AnalysisSection() {
+  const t = useCopy(COPY);
   return (
     <section id="analyse" className="py-20 md:py-28">
       <div className="shell">
         <SectionHeading
-          eyebrow="Ce qu'on analyse"
-          title="Des actions concrètes, chacune avec son gain en euros."
+          eyebrow={t.eyebrow}
+          title={t.title}
         />
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2">
-          {CARDS.map((card, index) => {
+          {t.cards.map((card, index) => {
             const Icon = card.icon;
             return (
               <Reveal key={card.title} delay={index * 0.08} y={18}>

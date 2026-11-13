@@ -6,6 +6,7 @@ import { useRef, type MouseEvent, type ReactNode } from "react";
 import { CountUp } from "@/components/motion/count-up";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Button } from "@/components/ui/button";
+import { useCopy } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { selectOffer } from "@/lib/selected-offer";
 import { cn } from "@/lib/utils";
@@ -20,7 +21,7 @@ type Offer = {
   cta: string;
 };
 
-const OFFERS: Offer[] = [
+const OFFERS_FR: Offer[] = [
   {
     id: "coffee-shop",
     name: "Coffee Shop",
@@ -83,12 +84,94 @@ const OFFERS: Offer[] = [
   },
 ];
 
+const OFFERS_EN: Offer[] = [
+  {
+    ...OFFERS_FR[0],
+    audience: "For coffee shops, tea rooms and small venues.",
+    features: [
+      "Smart dashboard",
+      "Sales and performance analysis",
+      "Cost and profitability tracking",
+      "Daily local competitor monitoring",
+      "Personalized AI recommendations",
+    ],
+    cta: "Choose Coffee Shop",
+  },
+  {
+    ...OFFERS_FR[1],
+    audience: "For independent and traditional restaurants.",
+    features: [
+      "Smart dashboard",
+      "In-depth financial performance analysis",
+      "Margin, expense and profitability tracking",
+      "Daily local competitor monitoring",
+      "AI-powered improvement opportunities",
+    ],
+    cta: "Choose Restaurant",
+  },
+  {
+    ...OFFERS_FR[2],
+    audience: "For high-volume venues.",
+    features: [
+      "Smart dashboard",
+      "Advanced financial and operational data analysis",
+      "Payroll, margin and profitability tracking",
+      "Daily local competitor monitoring",
+      "Personalized strategic analysis and recommendations",
+    ],
+    cta: "Choose Brasserie",
+  },
+  {
+    ...OFFERS_FR[3],
+    name: "Fine Dining & Michelin-Starred",
+    audience: "For fine dining restaurants and upscale venues.",
+    features: [
+      "Smart, fully customized dashboard",
+      "Tailored financial and strategic analysis",
+      "Detailed cost and performance tracking",
+      "Daily local competitor monitoring",
+      "Recommendations tailored to your venue",
+    ],
+    cta: "Choose Fine Dining",
+  },
+];
+
 const FREE_MONTH_TEXT =
   "Découvrez la puissance de DaTable, analysez vos performances et explorez votre environnement concurrentiel grâce à notre technologie et à notre accompagnement humain.";
 const VISIT_TITLE = "Toutes nos offres incluent au minimum une visite par mois dans votre établissement.";
 const VISIT_TEXT = "Parce que chez DaTable, la relation humaine est aussi importante que la puissance de nos analyses.";
 const COMMITMENT_TEXT =
   "Un accompagnement dans la durée : engagement de 6 mois minimum ou 12 mois, selon votre choix.";
+
+const COPY = {
+  fr: {
+    offers: OFFERS_FR,
+    eyebrow: "Nos offres",
+    title: "Des offres adaptées à votre établissement",
+    description: "L'IA analyse, l'humain accompagne. Tarifs en euros HT par mois et par établissement.",
+    freeTitle: "Votre premier mois est offert !",
+    freeText: FREE_MONTH_TEXT,
+    freeCta: "Profiter de mon premier mois offert",
+    visitTitle: VISIT_TITLE,
+    visitText: VISIT_TEXT,
+    commitment: COMMITMENT_TEXT,
+    perMonth: "HT / mois",
+  },
+  en: {
+    offers: OFFERS_EN,
+    eyebrow: "Our plans",
+    title: "Plans built for your restaurant",
+    description: "AI analyzes, people guide. Prices in euros, excluding tax, per month and per venue.",
+    freeTitle: "Your first month is free!",
+    freeText:
+      "Discover the power of DaTable: analyze your performance and explore your competitive landscape with our technology and our hands-on support.",
+    freeCta: "Claim my free first month",
+    visitTitle: "Every plan includes at least one visit a month to your restaurant.",
+    visitText: "Because at DaTable, the human relationship matters as much as the power of our analysis.",
+    commitment: "Long-term support: a minimum 6-month or 12-month commitment, your choice.",
+    perMonth: "excl. tax / month",
+  },
+};
 
 /** Fade-and-rise that plays again every time the block scrolls back into view. */
 function Replay({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
@@ -106,7 +189,7 @@ function Replay({ children, className, delay = 0 }: { children: ReactNode; class
   );
 }
 
-function OfferCard({ offer, index }: { offer: Offer; index: number }) {
+function OfferCard({ offer, index, perMonth }: { offer: Offer; index: number; perMonth: string }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.35 });
   const reduced = useReducedMotion();
@@ -160,7 +243,7 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
             delay={index * 0.09 + 0.25}
             className="font-mono text-[30px] font-medium leading-none tracking-[-0.03em] text-foreground transition-colors duration-300 group-hover:text-primary"
           />
-          <span className="font-mono text-[12px] text-muted-foreground">HT / mois</span>
+          <span className="font-mono text-[12px] text-muted-foreground">{perMonth}</span>
         </p>
 
         <hr className="my-6 border-0 border-t border-border" />
@@ -206,13 +289,14 @@ function OfferCard({ offer, index }: { offer: Offer; index: number }) {
 }
 
 export function OffersSection() {
+  const t = useCopy(COPY);
   return (
     <section id="offres" className="py-20 md:py-28">
       <div className="shell">
         <SectionHeading
-          eyebrow="Nos offres"
-          title="Des offres adaptées à votre établissement"
-          description="L'IA analyse, l'humain accompagne. Tarifs en euros HT par mois et par établissement."
+          eyebrow={t.eyebrow}
+          title={t.title}
+          description={t.description}
           align="center"
         />
 
@@ -233,16 +317,16 @@ export function OffersSection() {
                 </span>
                 <div>
                   <h3 className="font-display text-[clamp(1.2rem,2.2vw,1.5rem)] font-bold tracking-[-0.03em] text-foreground">
-                    Votre premier mois est offert !
+                    {t.freeTitle}
                   </h3>
                   <p className="mt-2 max-w-[44rem] text-pretty text-[15.5px] leading-relaxed text-muted-foreground">
-                    {FREE_MONTH_TEXT}
+                    {t.freeText}
                   </p>
                 </div>
               </div>
               <Button asChild size="lg" className="btn-shimmer w-full shrink-0 md:w-auto">
                 <a href="#diagnostic" onClick={() => selectOffer(null)}>
-                  Profiter de mon premier mois offert
+                  {t.freeCta}
                 </a>
               </Button>
             </div>
@@ -250,8 +334,8 @@ export function OffersSection() {
         </Replay>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {OFFERS.map((offer, index) => (
-            <OfferCard key={offer.id} offer={offer} index={index} />
+          {t.offers.map((offer, index) => (
+            <OfferCard key={offer.id} offer={offer} index={index} perMonth={t.perMonth} />
           ))}
         </div>
 
@@ -267,9 +351,9 @@ export function OffersSection() {
               </span>
               <div>
                 <h3 className="text-balance font-display text-[clamp(1.1rem,2vw,1.4rem)] font-semibold leading-snug tracking-[-0.025em] text-band-foreground">
-                  {VISIT_TITLE}
+                  {t.visitTitle}
                 </h3>
-                <p className="mt-2 text-pretty text-[15px] leading-relaxed text-band-muted">{VISIT_TEXT}</p>
+                <p className="mt-2 text-pretty text-[15px] leading-relaxed text-band-muted">{t.visitText}</p>
               </div>
             </div>
           </div>
@@ -278,7 +362,7 @@ export function OffersSection() {
         <Replay delay={0.1} className="mt-6">
           <p className="flex items-center justify-center gap-2.5 text-center text-[14px] leading-snug text-muted-foreground">
             <CalendarCheck className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-            <span>{COMMITMENT_TEXT}</span>
+            <span>{t.commitment}</span>
           </p>
         </Replay>
       </div>
