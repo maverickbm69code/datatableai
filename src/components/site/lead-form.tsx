@@ -5,7 +5,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { submitLead, type LeadSource } from "@/lib/datable-leads";
-import { useCopy, useLang } from "@/lib/i18n";
+import { formatMoney, useCopy, useLang } from "@/lib/i18n";
 import { EASE_OUT } from "@/lib/motion";
 import { selectOffer, useSelectedOffer } from "@/lib/selected-offer";
 import { cn } from "@/lib/utils";
@@ -26,16 +26,16 @@ const COPY = {
     submit: "Être contacté",
   },
   en: {
-    invalid: "Please check your email address.",
-    failed: "We couldn't send your request right now. Please try again.",
-    success: "Thank you! We'll get back to you within 48 hours.",
+    invalid: "Please enter a valid email address.",
+    failed: "Something went wrong and we couldn't send your request. Please try again.",
+    success: "Thanks! We'll reach out within 48 hours.",
     chosen: "Selected plan:",
-    perMonth: "excl. tax / month",
+    perMonth: "/ month",
     remove: "Remove",
-    label: "Your work email",
-    placeholder: "you@restaurant.com",
+    label: "Your business email",
+    placeholder: "you@yourrestaurant.com",
     sending: "Sending…",
-    submit: "Get in touch",
+    submit: "Contact me",
   },
 };
 
@@ -111,7 +111,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
               {shownOffer ? (
                 <p className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border border-border bg-primary-soft px-3 py-2 text-[13.5px] text-foreground">
                   <span>
-                    {t.chosen} <strong className="font-semibold">{shownOffer.name}</strong>, {shownOffer.price} {t.perMonth}
+                    {t.chosen} <strong className="font-semibold">{shownOffer.name}</strong>, {formatMoney(shownOffer.price, lang)} {t.perMonth}
                   </span>
                   <button
                     type="button"

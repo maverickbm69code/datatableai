@@ -17,12 +17,22 @@ const SOURCE_LABELS: Record<LeadSource, string> = {
   footer: "Appel final",
 };
 
-const OFFER_LABELS: Record<string, string> = {
-  "coffee-shop": "Coffee Shop (199 € HT/mois)",
-  restaurant: "Restaurant (299 € HT/mois)",
-  brasserie: "Brasserie (449 € HT/mois)",
-  gastronomique: "Gastronomique & Étoilé (699 € HT/mois)",
+// Internal labels for the lead notification (read by the team, in French).
+// Same amounts in both languages; the symbol matches what the visitor saw (€ or $).
+const OFFERS: Record<string, { name: string; price: number }> = {
+  "coffee-shop": { name: "Coffee Shop", price: 199 },
+  restaurant: { name: "Restaurant", price: 299 },
+  brasserie: { name: "Brasserie", price: 449 },
+  gastronomique: { name: "Gastronomique & Étoilé", price: 699 },
 };
+
+function offerLabel(id: string, lang: Lang) {
+  const offer = OFFERS[id];
+  if (!offer) return id;
+  return lang === "en"
+    ? `${offer.name} ($${offer.price}/mois, site anglais)`
+    : `${offer.name} (${offer.price} € HT/mois)`;
+}
 
 // Leads go to Netlify Forms (form "lead", declared in public/__forms.html).
 export async function submitLead(
@@ -35,7 +45,7 @@ export async function submitLead(
     "form-name": "lead",
     subject: `Nouveau lead Datable : ${email}`,
     source: SOURCE_LABELS[source],
-    offer: offer ? (OFFER_LABELS[offer] ?? offer) : "",
+    offer: offer ? offerLabel(offer, lang) : "",
     email,
     language: lang === "en" ? "Anglais" : "Français",
     "bot-field": "",

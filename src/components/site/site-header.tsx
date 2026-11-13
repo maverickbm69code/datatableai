@@ -27,13 +27,13 @@ const COPY = {
   en: {
     nav: [
       { href: "#fonctionnement", label: "How it works" },
-      { href: "#offres", label: "Plans" },
+      { href: "#offres", label: "Pricing" },
       { href: "#confidentialite", label: "Privacy" },
     ],
     home: "Datable, back to top",
     mainNav: "Main navigation",
     mobileNav: "Mobile navigation",
-    cta: "Get my free analysis",
+    cta: "Get my free assessment",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },

@@ -35,14 +35,14 @@ const CARDS_FR: AnalysisCard[] = [
 ];
 
 const CARDS_EN: AnalysisCard[] = [
-  { icon: Wine, title: "More revenue per cover", body: "Drinks, coffees, desserts." },
-  { icon: Users, title: "A team that keeps improving", body: "Each server compared with the best in the house." },
+  { icon: Wine, title: "A higher check average", body: "Beverages, coffee, desserts." },
+  { icon: Users, title: "A team that keeps getting better", body: "Every server benchmarked against your top performers." },
   {
     icon: NotebookText,
-    title: "A menu that pays off",
-    body: "Best sellers, dishes that don't move, wines gathering dust in the cellar.",
+    title: "A menu that makes money",
+    body: "Best sellers, dishes that aren't moving, wines collecting dust in inventory.",
   },
-  { icon: BadgeCheck, title: "Numbers you can trust", body: "POS setup errors spotted and flagged." },
+  { icon: BadgeCheck, title: "Numbers you can trust", body: "POS programming errors caught and flagged." },
 ];
 
 const COPY = {
@@ -54,7 +54,7 @@ const COPY = {
   en: {
     cards: CARDS_EN,
     eyebrow: "What we analyze",
-    title: "Concrete actions, each one with its gain in euros.",
+    title: "Concrete actions, each one with a dollar figure attached.",
   },
 };
 

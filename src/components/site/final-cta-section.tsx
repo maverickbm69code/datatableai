@@ -7,11 +7,13 @@ const COPY = {
     title: "Votre premier mois est offert.",
     body: "Laissez votre e-mail : on vous recontacte sous 48 heures pour organiser l'export de vos ventes.",
     direct: "Ou directement :",
+    phone: "06 95 99 26 62",
   },
   en: {
     title: "Your first month is on us.",
-    body: "Leave your email and we'll get back to you within 48 hours to set up your sales export.",
+    body: "Drop us your email and we'll reach out within 48 hours to set up your POS sales export.",
     direct: "Or call us directly:",
+    phone: "+33 6 95 99 26 62",
   },
 };
 
@@ -56,7 +58,7 @@ export function FinalCtaSection() {
                   href="tel:+33695992662"
                   className="font-medium text-foreground underline decoration-border-strong underline-offset-4 transition-colors hover:text-primary"
                 >
-                  06 95 99 26 62
+                  {t.phone}
                 </a>
               </p>
             </Reveal>

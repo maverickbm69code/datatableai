@@ -13,10 +13,10 @@ const COPY = {
     ],
   },
   en: {
-    quote: "“Give every independent restaurant the kind of analysis the big groups already have.”",
-    bio: "Founder and restaurant manager in Paris, with over seven years in fine dining.",
+    quote: "“Give every independent restaurant the same kind of analytics the big restaurant groups already have.”",
+    bio: "Founder and restaurant general manager in Paris, with 7+ years in fine dining.",
     background: [
-      "Maxim's de Paris — team of 40, €25.5M in annual revenue",
+      "Maxim's de Paris — 40-person team, $25.5M in annual sales",
       "Riviera Dining Group, Miami — 800 guests a day",
       "emlyon business school",
     ],

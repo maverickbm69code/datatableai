@@ -13,6 +13,8 @@ type CountUpProps = {
   decimals?: number;
   prefix?: string;
   suffix?: string;
+  /** Shows the value as money: "1 200 €" in French, "$1,200" in English. */
+  currency?: boolean;
   className?: string;
 };
 
@@ -31,10 +33,14 @@ export function CountUp({
   decimals = 0,
   prefix = "",
   suffix = "",
+  currency = false,
   className,
 }: CountUpProps) {
   const reduced = useReducedMotion();
-  const locale = NUMBER_LOCALE[useLang()];
+  const lang = useLang();
+  const locale = NUMBER_LOCALE[lang];
+  const before = currency && lang === "en" ? `${prefix}$` : prefix;
+  const after = currency && lang !== "en" ? `${suffix} €` : suffix;
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
@@ -57,14 +63,14 @@ export function CountUp({
   return (
     <span className={className}>
       <span aria-hidden="true" className="tnum">
-        {prefix}
+        {before}
         {format(display, decimals, locale)}
-        {suffix}
+        {after}
       </span>
       <span className="sr-only">
-        {prefix}
+        {before}
         {format(value, decimals, locale)}
-        {suffix}
+        {after}
       </span>
     </span>
   );

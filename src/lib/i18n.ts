@@ -44,9 +44,9 @@ const META: Record<Lang, { title: string; description: string; locale: string }>
     locale: "fr_FR",
   },
   en: {
-    title: "Datable | POS sales analysis for restaurants",
+    title: "Datable | POS sales analytics for restaurants",
     description:
-      "Datable analyzes your restaurant's POS sales and turns them into an action plan with the gain for each move. First month free.",
+      "Datable analyzes your restaurant's POS sales data and turns it into an action plan, with the dollar impact of every move. First month free.",
     locale: "en_US",
   },
 };
@@ -97,3 +97,15 @@ export function useCopy<T>(copy: Record<Lang, T>): T {
 }
 
 export const NUMBER_LOCALE: Record<Lang, string> = { fr: "fr-FR", en: "en-US" };
+
+/**
+ * Money is shown with the same amounts in both languages, only the symbol changes:
+ * "199 €" for French visitors, "$199" for US English visitors (no conversion).
+ */
+export function formatMoney(amount: number, lang: Lang, decimals = 0): string {
+  const number = new Intl.NumberFormat(NUMBER_LOCALE[lang], {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  }).format(amount);
+  return lang === "en" ? `$${number}` : `${number} €`;
+}

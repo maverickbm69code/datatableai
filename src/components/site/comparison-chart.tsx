@@ -26,13 +26,13 @@ const COPY = {
     ] as Metric[],
   },
   en: {
-    title: "How you compare to your market",
+    title: "How you stack up against your market",
     you: "Your restaurant",
     peers: "Comparable restaurants",
     metrics: [
-      { label: "Drinks share", restaurant: 30.4, market: 32, decimals: 1, suffix: "%" },
-      { label: "Coffees per cover", restaurant: 0.12, market: 0.2, decimals: 2 },
-      { label: "Starters per cover", restaurant: 0.6, market: 0.47, decimals: 2 },
+      { label: "Beverage mix", restaurant: 30.4, market: 32, decimals: 1, suffix: "%" },
+      { label: "Coffee per cover", restaurant: 0.12, market: 0.2, decimals: 2 },
+      { label: "Appetizers per cover", restaurant: 0.6, market: 0.47, decimals: 2 },
     ] as Metric[],
   },
 };

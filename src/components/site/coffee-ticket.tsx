@@ -8,7 +8,7 @@ const ROWS_FR: TicketRow[] = [
     detail: "18,2 % → 21 %",
     value: 9400,
     prefix: "+",
-    suffix: " €",
+    currency: true,
     gain: true,
   },
   {
@@ -17,14 +17,14 @@ const ROWS_FR: TicketRow[] = [
     detail: "1,05 → 1,30 / ticket",
     value: 7200,
     prefix: "+",
-    suffix: " €",
+    currency: true,
     gain: true,
   },
 ];
 
 const ROWS_EN: TicketRow[] = [
-  { ...ROWS_FR[0], label: "Pastry share", detail: "18.2% → 21%" },
-  { ...ROWS_FR[1], label: "Hot drinks", detail: "1.05 → 1.30 / ticket" },
+  { ...ROWS_FR[0], label: "Pastry mix", detail: "18.2% → 21%" },
+  { ...ROWS_FR[1], label: "Hot beverages", detail: "1.05 → 1.30 / check" },
 ];
 
 const COPY = {
@@ -37,10 +37,10 @@ const COPY = {
   },
   en: {
     rows: ROWS_EN,
-    headline: "Monthly report · Sept. 2026",
-    meta: "Coffee shop · 6,130 tickets",
-    note: "Illustrative example.",
-    totalLabel: "Upside / year",
+    headline: "Monthly report · Sep 2026",
+    meta: "Coffee shop · 6,130 checks",
+    note: "Sample report for illustration.",
+    totalLabel: "Annual upside",
   },
 };
 

@@ -16,7 +16,7 @@ type Offer = {
   name: string;
   icon: LucideIcon;
   audience: string;
-  price: string;
+  price: number;
   features: string[];
   cta: string;
 };
@@ -27,7 +27,7 @@ const OFFERS_FR: Offer[] = [
     name: "Coffee Shop",
     icon: Coffee,
     audience: "Pour les coffee shops, salons de thé et petites structures.",
-    price: "199 €",
+    price: 199,
     features: [
       "Tableau de bord intelligent",
       "Analyse des ventes et des performances",
@@ -42,7 +42,7 @@ const OFFERS_FR: Offer[] = [
     name: "Restaurant",
     icon: UtensilsCrossed,
     audience: "Pour les restaurants indépendants et traditionnels.",
-    price: "299 €",
+    price: 299,
     features: [
       "Tableau de bord intelligent",
       "Analyse approfondie des performances financières",
@@ -57,7 +57,7 @@ const OFFERS_FR: Offer[] = [
     name: "Brasserie",
     icon: BarChart3,
     audience: "Pour les établissements à forte activité.",
-    price: "449 €",
+    price: 449,
     features: [
       "Tableau de bord intelligent",
       "Analyse avancée des données financières et opérationnelles",
@@ -72,7 +72,7 @@ const OFFERS_FR: Offer[] = [
     name: "Gastronomique & Étoilé",
     icon: Star,
     audience: "Pour les restaurants gastronomiques et les établissements haut de gamme.",
-    price: "699 €",
+    price: 699,
     features: [
       "Tableau de bord intelligent et personnalisé",
       "Analyse financière et stratégique sur mesure",
@@ -87,50 +87,51 @@ const OFFERS_FR: Offer[] = [
 const OFFERS_EN: Offer[] = [
   {
     ...OFFERS_FR[0],
-    audience: "For coffee shops, tea rooms and small venues.",
+    audience: "For coffee shops, cafés, tea rooms and other small operations.",
     features: [
       "Smart dashboard",
       "Sales and performance analysis",
       "Cost and profitability tracking",
-      "Daily local competitor monitoring",
-      "Personalized AI recommendations",
+      "Daily local competitor tracking",
+      "Personalized, AI-driven recommendations",
     ],
     cta: "Choose Coffee Shop",
   },
   {
     ...OFFERS_FR[1],
-    audience: "For independent and traditional restaurants.",
+    audience: "For independent, full-service restaurants.",
     features: [
       "Smart dashboard",
-      "In-depth financial performance analysis",
-      "Margin, expense and profitability tracking",
-      "Daily local competitor monitoring",
-      "AI-powered improvement opportunities",
+      "In-depth P&L and financial performance analysis",
+      "Margin, operating cost and profitability tracking",
+      "Daily local competitor tracking",
+      "AI-identified opportunities to improve",
     ],
     cta: "Choose Restaurant",
   },
   {
     ...OFFERS_FR[2],
-    audience: "For high-volume venues.",
+    name: "High-Volume",
+    audience: "For busy, high-volume restaurants, brasseries and bistros.",
     features: [
       "Smart dashboard",
-      "Advanced financial and operational data analysis",
-      "Payroll, margin and profitability tracking",
-      "Daily local competitor monitoring",
-      "Personalized strategic analysis and recommendations",
+      "Advanced financial and operational analysis",
+      "Labor cost, margin and profitability tracking",
+      "Daily local competitor tracking",
+      "Personalized strategic insights and recommendations",
     ],
-    cta: "Choose Brasserie",
+    cta: "Choose High-Volume",
   },
   {
     ...OFFERS_FR[3],
     name: "Fine Dining & Michelin-Starred",
-    audience: "For fine dining restaurants and upscale venues.",
+    audience: "For fine dining and upscale restaurants.",
     features: [
       "Smart, fully customized dashboard",
-      "Tailored financial and strategic analysis",
+      "Custom financial and strategic analysis",
       "Detailed cost and performance tracking",
-      "Daily local competitor monitoring",
-      "Recommendations tailored to your venue",
+      "Daily local competitor tracking",
+      "Recommendations built around your concept",
     ],
     cta: "Choose Fine Dining",
   },
@@ -159,17 +160,17 @@ const COPY = {
   },
   en: {
     offers: OFFERS_EN,
-    eyebrow: "Our plans",
-    title: "Plans built for your restaurant",
-    description: "AI analyzes, people guide. Prices in euros, excluding tax, per month and per venue.",
-    freeTitle: "Your first month is free!",
+    eyebrow: "Pricing",
+    title: "A plan for every type of restaurant",
+    description: "AI does the analysis, our people guide you. Monthly pricing per location, plus applicable tax.",
+    freeTitle: "Your first month is on us!",
     freeText:
-      "Discover the power of DaTable: analyze your performance and explore your competitive landscape with our technology and our hands-on support.",
-    freeCta: "Claim my free first month",
-    visitTitle: "Every plan includes at least one visit a month to your restaurant.",
-    visitText: "Because at DaTable, the human relationship matters as much as the power of our analysis.",
-    commitment: "Long-term support: a minimum 6-month or 12-month commitment, your choice.",
-    perMonth: "excl. tax / month",
+      "See what DaTable can do: analyze your performance and size up your local competition, with our technology and hands-on support from our team.",
+    freeCta: "Start my free month",
+    visitTitle: "Every plan includes at least one in-person visit a month at your restaurant.",
+    visitText: "Because at DaTable, the relationship matters just as much as the data.",
+    commitment: "We're in it for the long haul: 6-month minimum or 12-month term, your choice.",
+    perMonth: "/ month",
   },
 };
 
@@ -237,8 +238,8 @@ function OfferCard({ offer, index, perMonth }: { offer: Offer; index: number; pe
 
         <p className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <CountUp
-            value={Number.parseInt(offer.price, 10)}
-            suffix=" €"
+            value={offer.price}
+            currency
             active={inView}
             delay={index * 0.09 + 0.25}
             className="font-mono text-[30px] font-medium leading-none tracking-[-0.03em] text-foreground transition-colors duration-300 group-hover:text-primary"

@@ -28,16 +28,16 @@ const POINTS_FR: Point[] = [
 
 const POINTS_EN: Point[] = [
   {
-    title: "Real analysis",
-    body: "3,058 tickets and 7,747 covers combed through in a single month.",
+    title: "Real analysis, real data",
+    body: "3,058 checks and 7,747 covers broken down in a single month.",
   },
   {
-    title: "Over 30 restaurants",
-    body: "An existing portfolio, so comparisons are solid from the very first month.",
+    title: "30+ restaurants",
+    body: "An established client base, so your benchmarks are solid from month one.",
   },
   {
     title: "Always anonymous",
-    body: "You see where you stand, never the names of the others.",
+    body: "You see where you stand, never who the other restaurants are.",
   },
 ];
 
@@ -56,8 +56,8 @@ const COPY = {
     points: POINTS_EN,
     words: [
       { text: "Outperform" },
-      { text: "your", accent: true },
-      { text: "competitors.", accent: true },
+      { text: "the", accent: true },
+      { text: "competition.", accent: true },
     ],
   },
 };

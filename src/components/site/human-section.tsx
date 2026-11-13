@@ -24,21 +24,21 @@ const COPY = {
   },
   en: {
     eyebrow: "People at the heart of DaTable",
-    title: "Artificial intelligence analyzes. People guide.",
+    title: "AI does the analysis. People guide the way.",
     intro:
-      "At DaTable, we believe technology will never replace on-the-ground understanding and human contact.",
-    visitLead: "That's why we come to meet you",
-    visitStrong: "at least once a month, right in your restaurant.",
-    visitIntro: "These meetings help us:",
+      "At DaTable, we believe technology will never replace real-world restaurant experience and face-to-face contact.",
+    visitLead: "That's why we come see you",
+    visitStrong: "at least once a month, in person, at your restaurant.",
+    visitIntro: "These visits are how we:",
     outro:
-      "Our goal isn't just to hand you numbers, but to support your restaurant's success over the long run.",
-    closing: "AI observes and analyzes. Together, we decide.",
+      "Our goal isn't just to hand you numbers. It's to be a long-term partner in your restaurant's success.",
+    closing: "AI watches and analyzes. Together, we make the call.",
     meetings: [
-      "Understand your day-to-day and your challenges.",
-      "Review your performance together.",
-      "Catch up on what your competitors are doing.",
-      "Pinpoint the priority actions to boost your profitability.",
-      "Track the results of decisions made in previous months.",
+      "Understand your day-to-day operations and pain points.",
+      "Go over your performance together.",
+      "Catch up on what your competition is doing.",
+      "Pinpoint the top-priority moves to improve your bottom line.",
+      "Follow up on the results of decisions made in past months.",
     ],
   },
 };

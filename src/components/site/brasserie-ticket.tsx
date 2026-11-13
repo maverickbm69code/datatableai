@@ -8,7 +8,7 @@ const ROWS_FR: TicketRow[] = [
     detail: "30,4 % → 32 %",
     value: 47500,
     prefix: "+",
-    suffix: " €",
+    currency: true,
     gain: true,
   },
   {
@@ -17,7 +17,7 @@ const ROWS_FR: TicketRow[] = [
     detail: "0,12 → 0,20 / couvert",
     value: 11000,
     prefix: "+",
-    suffix: " €",
+    currency: true,
     gain: true,
   },
   { key: "cave", label: "Cave", detail: "références dormantes", value: 24 },
@@ -25,10 +25,10 @@ const ROWS_FR: TicketRow[] = [
 ];
 
 const ROWS_EN: TicketRow[] = [
-  { ...ROWS_FR[0], label: "Drinks share", detail: "30.4% → 32%" },
-  { ...ROWS_FR[1], label: "Coffees", detail: "0.12 → 0.20 / cover" },
-  { ...ROWS_FR[2], label: "Wine cellar", detail: "slow-moving bottles" },
-  { ...ROWS_FR[3], label: "POS setup errors" },
+  { ...ROWS_FR[0], label: "Beverage mix", detail: "30.4% → 32%" },
+  { ...ROWS_FR[1], label: "Coffee", detail: "0.12 → 0.20 / cover" },
+  { ...ROWS_FR[2], label: "Wine inventory", detail: "slow-moving labels" },
+  { ...ROWS_FR[3], label: "POS programming errors" },
 ];
 
 const COPY = {
@@ -42,11 +42,11 @@ const COPY = {
   },
   en: {
     rows: ROWS_EN,
-    headline: "Monthly report · Sept. 2026",
-    meta: "Parisian brasserie · 7,747 covers",
-    totalLabel: "Upside / year",
-    footerNote: "Real example, venue anonymized.",
-    footerSignOff: "Thank you for your visit.",
+    headline: "Monthly report · Sep 2026",
+    meta: "Paris brasserie · 7,747 covers",
+    totalLabel: "Annual upside",
+    footerNote: "Real client data, restaurant name withheld.",
+    footerSignOff: "Thanks for dining with us!",
   },
 };
 
