@@ -129,11 +129,10 @@ try {
   // ---- « Ressources & Conseils ».
   const distDir = path.dirname(htmlPath);
   let articles = [];
-  let fetched = true;
   try {
     articles = await loadArticles(vite);
   } catch (error) {
-    fetched = false;
+    // Still write /ressources (empty list): the page then exists and loads articles in the browser.
     // Opt-in strict mode (set DT_STRICT_ARTICLES=true on Netlify once the database is set up):
     // a failed fetch fails the build, so the previous deploy stays live instead of silently
     // publishing a site without its articles. By default it is only a warning.
@@ -145,7 +144,7 @@ try {
     }
   }
 
-  if (fetched && pristine.includes(marker)) {
+  if (pristine.includes(marker)) {
     const { renderResources, listingPageHead, articlePageHead } = await vite.ssrLoadModule("/src/entry-prerender.tsx");
     const summaries = articles.map(toSummary);
     const entries = [];
