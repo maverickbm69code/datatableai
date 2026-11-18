@@ -91,6 +91,12 @@ async function loadArticles(vite) {
     if (result.ok) return result.data ?? [];
     // Table not created yet: there is simply nothing to publish.
     if (result.notProvisioned) return [];
+    // The server answered with a client error (table or policy not set up yet): not an outage.
+    // A deploy must not be blocked before the database migration is applied.
+    if (result.status && result.status >= 400 && result.status < 500) {
+      console.warn(`Articles not readable yet (${result.error}); building with no article.`);
+      return [];
+    }
     last = result.error ?? last;
     await new Promise((resolve) => setTimeout(resolve, 1500 * attempt));
   }

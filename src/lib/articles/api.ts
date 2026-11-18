@@ -22,6 +22,8 @@ export type PublicResult<T> = {
   error?: string;
   /** The articles table does not exist yet (migration not applied). */
   notProvisioned?: boolean;
+  /** HTTP status when the server answered with an error (absent on network failure). */
+  status?: number;
 };
 
 async function restGet<T>(query: string, signal?: AbortSignal): Promise<PublicResult<T>> {
@@ -40,7 +42,7 @@ async function restGet<T>(query: string, signal?: AbortSignal): Promise<PublicRe
       // PGRST205 / 42P01: the table is not there yet. Not an outage: there is just nothing to show.
       const notProvisioned =
         response.status === 404 || /PGRST205|PGRST200|42P01|does not exist|Could not find the table/i.test(text);
-      return { ok: false, error: `HTTP ${response.status}`, notProvisioned };
+      return { ok: false, error: `HTTP ${response.status}`, notProvisioned, status: response.status };
     }
 
     return { ok: true, data: (await response.json()) as T };
