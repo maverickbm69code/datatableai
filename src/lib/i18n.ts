@@ -3,6 +3,7 @@ import { useSyncExternalStore } from "react";
 export type Lang = "fr" | "en";
 
 const STORAGE_KEY = "datable-lang";
+const SITE_URL = "https://datableia.com";
 const listeners = new Set<() => void>();
 
 function isLang(value: unknown): value is Lang {
@@ -15,12 +16,26 @@ function isLang(value: unknown): value is Lang {
  * 2. the choice saved from the language switcher,
  * 3. the browser's preferred languages (first French or English match),
  * 4. English for everyone else, since the site is French-first only for French speakers.
+ * Search and AI crawlers always get French at "/" so the indexed page matches its
+ * canonical URL; the English version is indexed separately at "/?lang=en".
  */
-function detectLang(): Lang {
-  if (typeof window === "undefined") return "fr";
+const CRAWLER_UA = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|chatgpt|perplexity|lighthouse/i;
+
+function langFromUrl(): Lang | null {
   try {
     const fromUrl = new URLSearchParams(window.location.search).get("lang")?.toLowerCase();
-    if (isLang(fromUrl)) return fromUrl;
+    return isLang(fromUrl) ? fromUrl : null;
+  } catch {
+    return null;
+  }
+}
+
+function detectLang(): Lang {
+  if (typeof window === "undefined") return "fr";
+  const fromUrl = langFromUrl();
+  if (fromUrl) return fromUrl;
+  if (CRAWLER_UA.test(navigator.userAgent ?? "")) return "fr";
+  try {
     const saved = window.localStorage.getItem(STORAGE_KEY);
     if (isLang(saved)) return saved;
   } catch {
@@ -60,6 +75,12 @@ function applyDocument(lang: Lang) {
   document.querySelector('meta[property="og:title"]')?.setAttribute("content", meta.title);
   document.querySelector('meta[property="og:description"]')?.setAttribute("content", meta.description);
   document.querySelector('meta[property="og:locale"]')?.setAttribute("content", meta.locale);
+  document.querySelector('meta[name="twitter:title"]')?.setAttribute("content", meta.title);
+  document.querySelector('meta[name="twitter:description"]')?.setAttribute("content", meta.description);
+  // Only explicit "?lang=" URLs are self-canonical; "/" always points to itself.
+  const url = langFromUrl() === "en" ? `${SITE_URL}/?lang=en` : `${SITE_URL}/`;
+  document.querySelector('link[rel="canonical"]')?.setAttribute("href", url);
+  document.querySelector('meta[property="og:url"]')?.setAttribute("content", url);
 }
 
 applyDocument(current);
