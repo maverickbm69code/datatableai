@@ -134,9 +134,10 @@ try {
     articles = await loadArticles(vite);
   } catch (error) {
     fetched = false;
-    // On Netlify a failed fetch fails the build: the previous deploy stays live instead of
-    // silently publishing a site without its articles. Locally it is only a warning.
-    if (process.env.NETLIFY === "true") {
+    // Opt-in strict mode (set DT_STRICT_ARTICLES=true on Netlify once the database is set up):
+    // a failed fetch fails the build, so the previous deploy stays live instead of silently
+    // publishing a site without its articles. By default it is only a warning.
+    if (process.env.DT_STRICT_ARTICLES === "true") {
       console.error("Resources prerender failed:", error);
       process.exitCode = 1;
     } else {
