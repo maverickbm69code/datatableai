@@ -1,14 +1,51 @@
+# robots.txt — https://datableia.com
+# Public pages are open to search engines and AI search assistants.
+# Private areas (admin, form endpoint) stay out of every index.
+
+# ChatGPT search (référencement dans ChatGPT)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /__forms.html
+
+# ChatGPT, on behalf of a user
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /__forms.html
+
+# OpenAI model training: blocked
+User-agent: GPTBot
+Disallow: /
+
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /__forms.html
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /__forms.html
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /__forms.html
 
 User-agent: Twitterbot
 Allow: /
+Disallow: /admin
+Disallow: /__forms.html
 
 User-agent: facebookexternalhit
 Allow: /
+Disallow: /admin
+Disallow: /__forms.html
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /__forms.html
+
+Sitemap: https://datableia.com/sitemap.xml

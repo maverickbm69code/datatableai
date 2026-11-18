@@ -33,6 +33,7 @@ project-root/
   - *Each page should have its own subdirectory if it contains more than a single file or has related logic/components.*
 - **src/App.tsx**: Sets up global providers.
 - **src/router.tsx**: Sets up routing.
+- **src/entry-prerender.tsx**: Build-time only. Server-renders the home page; `scripts/prerender.mjs` injects it into `dist/index.html` after `vite build` so crawlers without JavaScript can read the content.
 - **src/main.tsx**: Application entry point. Wraps the app in the top-level error boundary and reports caught errors through `src/lib/report-caught-error.ts`.
 - **src/setup.ts**: Side-effect imports that must run before the app renders (for example the i18n runtime injected by the `enter_i18n` skill). `src/main.tsx` is platform-managed: add such imports here instead.
 
