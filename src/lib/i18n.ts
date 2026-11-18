@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { createContext, createElement, useContext, useSyncExternalStore, type ReactNode } from "react";
 
 export type Lang = "fr" | "en";
 
@@ -66,8 +66,18 @@ const META: Record<Lang, { title: string; description: string; locale: string }>
   },
 };
 
+/**
+ * The « Ressources & Conseils » pages (/ressources, /ressources/:slug) manage their own
+ * title, description, canonical and social tags (see src/lib/page-meta.ts). The home-page
+ * tags below must not overwrite them.
+ */
+function onResourcesPath() {
+  return typeof window !== "undefined" && /^\/ressources(\/|$)/.test(window.location.pathname);
+}
+
 function applyDocument(lang: Lang) {
   if (typeof document === "undefined") return;
+  if (onResourcesPath()) return;
   const meta = META[lang];
   document.documentElement.lang = lang;
   document.title = meta.title;
@@ -108,8 +118,20 @@ function subscribe(listener: () => void) {
   };
 }
 
+/**
+ * Lets a page render in a fixed language without touching the visitor's saved choice:
+ * an article written in English is shown with the English interface, whatever the browser says.
+ */
+const LangOverrideContext = createContext<Lang | null>(null);
+
+export function LangOverride({ lang, children }: { lang: Lang; children: ReactNode }) {
+  return createElement(LangOverrideContext.Provider, { value: lang }, children);
+}
+
 export function useLang(): Lang {
-  return useSyncExternalStore(subscribe, () => current, () => "fr");
+  const stored = useSyncExternalStore(subscribe, () => current, () => "fr");
+  const override = useContext(LangOverrideContext);
+  return (override ?? stored) as Lang;
 }
 
 /** Returns the copy for the active language from a `{ fr, en }` dictionary. */

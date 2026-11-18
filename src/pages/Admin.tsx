@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Download, Loader2, LogOut, RefreshCw } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useState } from "react";
 
 import { DatableWordmark } from "@/components/site/logo-mark";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,9 @@ import {
   type Lead,
 } from "@/lib/datable-leads";
 import { EASE_OUT } from "@/lib/motion";
+
+// Loaded only when the « Articles » tab is opened (the rich text editor is heavy).
+const ArticleManager = lazy(() => import("./admin-articles"));
 
 const TOKEN_KEY = "datable-admin-token";
 
@@ -48,6 +51,7 @@ const Admin = () => {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tab, setTab] = useState<"leads" | "articles">("leads");
 
   const loadLeads = useCallback(async (activeToken: string) => {
     setBusy(true);
@@ -137,6 +141,15 @@ const Admin = () => {
     setToken(null);
     setLeads([]);
     setPasscode("");
+    setTab("leads");
+    setStage("login");
+  }
+
+  function handleArticlesExpired() {
+    localStorage.removeItem(TOKEN_KEY);
+    setToken(null);
+    setTab("leads");
+    setError("Session expirée. Saisissez de nouveau votre code.");
     setStage("login");
   }
 
@@ -264,6 +277,32 @@ const Admin = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.32, ease: EASE_OUT }}
             >
+              <div role="tablist" aria-label="Sections de l'administration" className="mb-8 inline-flex rounded-lg border border-border p-1">
+                {([
+                  ["leads", "Leads"],
+                  ["articles", "Articles"],
+                ] as const).map(([key, label]) => (
+                  <button
+                    key={key}
+                    type="button"
+                    role="tab"
+                    aria-selected={tab === key}
+                    onClick={() => setTab(key)}
+                    className={`rounded-md px-4 py-2 text-[14px] font-medium transition-colors ${
+                      tab === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {tab === "articles" && token ? (
+                <Suspense fallback={<p className="text-[14px] text-muted-foreground">Chargement…</p>}>
+                  <ArticleManager token={token} onExpired={handleArticlesExpired} />
+                </Suspense>
+              ) : (
+              <>
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <div>
                   <p className="eyebrow">Administration</p>
@@ -340,6 +379,8 @@ const Admin = () => {
                   </div>
                 )}
               </div>
+              </>
+              )}
             </motion.div>
           ) : null}
         </AnimatePresence>

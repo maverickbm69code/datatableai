@@ -1,0 +1,32 @@
+/* Editing surface of the article editor (admin only, scoped to .dt-editor). */
+.dt-editor .ProseMirror {
+  min-height: 22rem;
+  padding: 1.25rem 1.5rem;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.dt-editor .ProseMirror > * + * { margin-top: 0.9rem; }
+.dt-editor .ProseMirror h2 { font-size: 1.5rem; font-weight: 700; margin-top: 1.8rem; letter-spacing: -0.02em; }
+.dt-editor .ProseMirror h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.4rem; }
+.dt-editor .ProseMirror ul { list-style: disc; padding-left: 1.4rem; }
+.dt-editor .ProseMirror ol { list-style: decimal; padding-left: 1.4rem; }
+.dt-editor .ProseMirror a { color: hsl(var(--primary)); text-decoration: underline; }
+.dt-editor .ProseMirror blockquote { border-left: 3px solid hsl(var(--primary)); padding-left: 1rem; color: hsl(var(--muted-foreground)); }
+.dt-editor .ProseMirror hr { border: 0; border-top: 1px solid hsl(var(--border)); margin: 1.5rem 0; }
+.dt-editor .ProseMirror table { border-collapse: collapse; width: 100%; table-layout: fixed; }
+.dt-editor .ProseMirror th,
+.dt-editor .ProseMirror td { border: 1px solid hsl(var(--border)); padding: 0.4rem 0.6rem; vertical-align: top; }
+.dt-editor .ProseMirror th { background: hsl(var(--muted)); font-weight: 600; text-align: left; }
+.dt-editor .ProseMirror .selectedCell { background: hsl(var(--primary) / 0.12); }
+.dt-editor .dt-callout { border: 1px solid hsl(var(--border)); border-left: 4px solid hsl(var(--primary)); border-radius: 0.75rem; padding: 0.75rem 1rem; background: hsl(var(--muted) / 0.5); }
+.dt-editor .dt-callout::before { display: block; font: 600 11px/1 var(--font-mono, monospace); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.4rem; color: hsl(var(--muted-foreground)); }
+.dt-editor .dt-callout-conseil::before { content: "Conseil"; }
+.dt-editor .dt-callout-attention::before { content: "Attention"; }
+.dt-editor .dt-callout-info::before { content: "Info"; }
+.dt-editor .dt-key-figures { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+.dt-editor .dt-key-figure { border: 1px dashed hsl(var(--border)); border-radius: 0.75rem; padding: 0.75rem 1rem; }
+.dt-editor .dt-key-figure > p:first-child { font-family: var(--font-mono, monospace); font-size: 1.6rem; font-weight: 500; margin: 0; }
+.dt-editor .dt-key-figure > p:last-child { font-size: 0.85rem; color: hsl(var(--muted-foreground)); margin: 0.25rem 0 0; }
+.dt-editor .dt-bar-chart { border: 1px dashed hsl(var(--primary) / 0.6); border-radius: 0.75rem; padding: 0.9rem 1rem; color: hsl(var(--muted-foreground)); font-size: 0.9rem; cursor: pointer; }
+.dt-editor .ProseMirror-selectednode.dt-bar-chart { border-style: solid; }
