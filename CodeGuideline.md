@@ -128,3 +128,11 @@ Whenever a new module (such as a component, hook, or utility) or a new page is a
    <Route path="/profile" element={<Profile />} />
    ```
 5. **If you need a reusable button, add it to `src/components/ui/button.tsx`.**
+
+## « Ressources & Conseils » section (`/ressources`)
+
+- **Pages:** `src/pages/resources/index.tsx` (listing) and `article.tsx` (one article, route `/ressources/:slug`). Shared pieces live in `src/components/resources/`, data and SEO logic in `src/lib/articles/`.
+- **Content format:** articles are stored as Tiptap/ProseMirror JSON (`datable_articles.content`), never as HTML. The only renderer is `src/components/resources/article-content.tsx` (no `innerHTML`); the allowlist of blocks is enforced server-side in `supabase/functions/admin-articles/index.ts`. A new block type must be added in three places: the editor (`src/pages/admin-articles/extensions.ts`), the renderer, and the validator.
+- **Admin:** the « Articles » tab of `src/pages/Admin.tsx` lazy-loads `src/pages/admin-articles/`. It reuses the existing admin session token; all writes go through the `admin-articles` function (RLS only exposes published rows to the public).
+- **SEO / prerender:** `scripts/prerender.mjs` fetches the published articles at build time and writes `dist/ressources/**/index.html` (full HTML, per-page head, JSON-LD) and appends the section to `dist/sitemap.xml`. Publishing triggers a rebuild through the optional `NETLIFY_BUILD_HOOK_URL` secret of the function. On Netlify a failed fetch fails the build instead of silently dropping articles.
+- **Languages:** an article has one language; `LangOverride` renders it in that language without touching the visitor's saved choice. hreflang links exist only between two published translations (`translation_of`).

@@ -17,7 +17,17 @@ export function SiteFooter() {
             {subline}
           </p>
         </div>
-        <p className="text-[13.5px] text-muted-foreground">© 2026 Datable · Paris</p>
+        <div className="flex flex-col gap-4 md:items-end">
+          <nav aria-label={lang === "fr" ? "Liens du pied de page" : "Footer links"}>
+            <a
+              href="/ressources"
+              className="text-[14.5px] font-medium text-foreground underline decoration-border-strong underline-offset-4 transition-colors hover:text-primary"
+            >
+              {lang === "fr" ? "Ressources & Conseils" : "Resources & Insights"}
+            </a>
+          </nav>
+          <p className="text-[13.5px] text-muted-foreground">© 2026 Datable · Paris</p>
+        </div>
       </div>
     </footer>
   );
