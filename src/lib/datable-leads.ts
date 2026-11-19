@@ -1,4 +1,3 @@
-import { supabase } from "@/integrations/supabase/client";
 import type { Lang } from "@/lib/i18n";
 
 export type LeadSource = "hero" | "footer";
@@ -65,11 +64,16 @@ export async function submitLead(
   }
 }
 
+// The Supabase SDK is only needed by the admin page, so it is loaded on demand
+// and stays out of the public home page bundle.
+const loadSupabase = () => import("@/integrations/supabase/client").then((m) => m.supabase);
+
 type AdminStatusResult = { ok: boolean; configured?: boolean; error?: string };
 type AdminAuthResult = { ok: boolean; token?: string; needsSetup?: boolean; error?: string };
 type AdminListResult = { ok: boolean; leads?: Lead[]; expired?: boolean; error?: string };
 
 export async function fetchAdminStatus() {
+  const supabase = await loadSupabase();
   const { data, error } = await supabase.functions.invoke("admin-leads", {
     body: { action: "status" },
     headers: { "Content-Type": "application/json" },
@@ -79,6 +83,7 @@ export async function fetchAdminStatus() {
 }
 
 async function adminAuth(action: "setup" | "login", passcode: string) {
+  const supabase = await loadSupabase();
   const { data, error } = await supabase.functions.invoke("admin-leads", {
     body: { action, passcode },
     headers: { "Content-Type": "application/json" },
@@ -91,6 +96,7 @@ export const setupAdminAccess = (passcode: string) => adminAuth("setup", passcod
 export const loginAdmin = (passcode: string) => adminAuth("login", passcode);
 
 export async function fetchLeads(token: string) {
+  const supabase = await loadSupabase();
   const { data, error } = await supabase.functions.invoke("admin-leads", {
     body: { action: "list", token },
     headers: { "Content-Type": "application/json" },
@@ -100,6 +106,7 @@ export async function fetchLeads(token: string) {
 }
 
 export async function logoutAdmin(token: string) {
+  const supabase = await loadSupabase();
   await supabase.functions.invoke("admin-leads", {
     body: { action: "logout", token },
     headers: { "Content-Type": "application/json" },

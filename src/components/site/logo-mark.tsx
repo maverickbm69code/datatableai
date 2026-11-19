@@ -8,17 +8,17 @@ export function DatableGlyph({ className }: { className?: string }) {
   return (
     <span className={cn("block shrink-0", className)}>
       <img
-        src="/logo-mark.png"
+        src="/logo-mark-144.png"
         alt=""
-        width={512}
-        height={512}
+        width={144}
+        height={144}
         className="h-full w-full object-contain dark:hidden"
       />
       <img
-        src="/logo-mark-dark.png"
+        src="/logo-mark-dark-144.png"
         alt=""
-        width={512}
-        height={512}
+        width={144}
+        height={144}
         className="hidden h-full w-full object-contain dark:block"
       />
     </span>

@@ -53,15 +53,15 @@ let current: Lang = detectLang();
 
 const META: Record<Lang, { title: string; description: string; locale: string }> = {
   fr: {
-    title: "Datable | Analyse de caisse pour restaurants",
+    title: "DaTable — Intelligence et rentabilité pour les restaurateurs",
     description:
-      "Datable analyse les ventes de caisse des restaurants et en tire un plan d'action chiffré en euros. Premier mois offert.",
+      "Pilotez la rentabilité de votre restaurant avec DaTable : analyse des ventes, veille concurrentielle et plan d'action, entre IA et accompagnement humain.",
     locale: "fr_FR",
   },
   en: {
-    title: "Datable | POS sales analytics for restaurants",
+    title: "DaTable — Intelligence and profitability for restaurant owners",
     description:
-      "Datable analyzes your restaurant's POS sales data and turns it into an action plan, with the dollar impact of every move. First month free.",
+      "Run a more profitable restaurant with DaTable: sales analytics, competitor monitoring and a clear action plan, combining AI with hands-on human support.",
     locale: "en_US",
   },
 };

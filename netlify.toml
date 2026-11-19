@@ -2,16 +2,46 @@
   command = "pnpm run build"
   publish = "dist"
 
-# Keep private areas out of search and AI indexes (robots.txt also disallows them).
+# The admin page is a client-side route: serve the app shell for it.
+# Unknown URLs keep returning a real 404 so search engines never index them.
+[[redirects]]
+  from = "/admin"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/index.html"
+  status = 200
+
+# Baseline security headers for every page.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Hashed build files never change: cache them for a year.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Keep private areas out of search and AI indexes (robots.txt also disallows them),
+# and out of shared caches.
 [[headers]]
   for = "/admin"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"
 
 [[headers]]
   for = "/admin/*"
   [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store"
 
 [[headers]]
   for = "/__forms.html"
