@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from "framer-motion";
 import { Check } from "lucide-react";
 
 import { FlipWords } from "@/components/motion/flip-words";
@@ -6,10 +7,11 @@ import { RevealWords } from "@/components/motion/reveal-words";
 import { HeroTickets } from "@/components/site/hero-tickets";
 import { LeadForm } from "@/components/site/lead-form";
 import { useCopy } from "@/lib/i18n";
+import { EASE_OUT, REVEAL_VIEWPORT } from "@/lib/motion";
 
 const COPY = {
   fr: {
-    eyebrow: "Analyse du chiffre d'affaires des restaurants",
+    eyebrow: "DaTable · Intelligence et rentabilité pour les restaurateurs",
     words: [
       { text: "L’argent" },
       { text: "est" },
@@ -22,7 +24,7 @@ const COPY = {
     promises: ["1er mois offert", "Aucune installation", "Visite mensuelle incluse"],
   },
   en: {
-    eyebrow: "Sales analytics for restaurants",
+    eyebrow: "DaTable · Intelligence & profitability for restaurants",
     words: [
       { text: "The" },
       { text: "money's" },
@@ -36,22 +38,40 @@ const COPY = {
   },
 };
 
+/** Same look and fade-in as the former eyebrow paragraph, as an inline element valid inside the H1. */
+function EyebrowLine({ text }: { text: string }) {
+  const reduced = useReducedMotion();
+  const className = "eyebrow block leading-normal";
+  if (reduced) return <span className={className}>{text}</span>;
+  return (
+    <motion.span
+      className={className}
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={REVEAL_VIEWPORT}
+      transition={{ duration: 0.5, ease: EASE_OUT }}
+    >
+      {text}
+    </motion.span>
+  );
+}
+
 export function HeroSection() {
   const t = useCopy(COPY);
   return (
     <section id="hero" className="hero-glow relative overflow-hidden">
       <div className="shell grid items-center gap-14 py-14 md:py-20 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-20">
         <div>
-          <Reveal y={10} duration={0.5}>
-            <p className="eyebrow">{t.eyebrow}</p>
-          </Reveal>
-
-          <h1 className="mt-5 text-balance font-display text-[clamp(2.5rem,7vw,4.6rem)] font-bold leading-[0.98] tracking-[-0.045em] text-foreground">
-            <FlipWords
-              baseDelay={0.15}
-              key={t.eyebrow}
-              words={t.words}
-            />
+          {/* The eyebrow line is part of the H1 so the visible heading names the brand. */}
+          <h1 className="text-balance font-display text-[clamp(2.5rem,7vw,4.6rem)] font-bold leading-[0.98] tracking-[-0.045em] text-foreground">
+            <EyebrowLine text={t.eyebrow} />
+            <span className="mt-5 block">
+              <FlipWords
+                baseDelay={0.15}
+                key={t.eyebrow}
+                words={t.words}
+              />
+            </span>
           </h1>
 
           <RevealWords

@@ -1,6 +1,4 @@
-import Admin from "./pages/Admin";
 import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
 
 export const routers = [
   {
@@ -11,13 +9,14 @@ export const routers = [
   {
     path: "/admin",
     name: "admin",
-    element: <Admin />,
+    // Loaded on demand: visitors of the public pages never download it.
+    lazy: () => import("./pages/Admin").then((m) => ({ Component: m.default })),
   },
   /* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */
   {
     path: "*",
     name: "404",
-    element: <NotFound />,
+    lazy: () => import("./pages/NotFound").then((m) => ({ Component: m.default })),
   },
 ];
 
