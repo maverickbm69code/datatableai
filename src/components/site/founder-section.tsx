@@ -7,8 +7,8 @@ const COPY = {
     quote: "« Donner à chaque restaurant indépendant l'analyse dont disposent les grands groupes. »",
     bio: "Fondateur, directeur de restaurant à Paris, plus de sept ans de restauration haut de gamme.",
     background: [
-      "Maxim's de Paris — équipe de 40, 25,5 M€ de CA annuel",
-      "Riviera Dining Group, Miami — 800 clients par jour",
+      "Maxim's de Paris : équipe de 40, 25,5 M€ de CA annuel",
+      "Riviera Dining Group, Miami : 800 clients par jour",
       "emlyon business school",
     ],
   },
@@ -16,8 +16,8 @@ const COPY = {
     quote: "“Give every independent restaurant the same kind of analytics the big restaurant groups already have.”",
     bio: "Founder and restaurant general manager in Paris, with 7+ years in fine dining.",
     background: [
-      "Maxim's de Paris — 40-person team, $25.5M in annual sales",
-      "Riviera Dining Group, Miami — 800 guests a day",
+      "Maxim's de Paris : 40-person team, $25.5M in annual sales",
+      "Riviera Dining Group, Miami : 800 guests a day",
       "emlyon business school",
     ],
   },
