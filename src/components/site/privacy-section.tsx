@@ -14,7 +14,7 @@ const COMMITMENTS_FR: Commitment[] = [
   },
   {
     title: "Jamais revendues",
-    body: "Vos données de caisse ne sont jamais cédées ni revendues.",
+    body: "Vos données ne sont jamais revendues.",
   },
   {
     title: "Comparaisons anonymes",
@@ -26,11 +26,11 @@ const COMMITMENTS_FR: Commitment[] = [
   },
   {
     title: "Supprimées sur demande",
-    body: "Et à la fin de l'abonnement.",
+    body: "Vos données effacées quand vous le voulez.",
   },
   {
-    title: "Conforme au RGPD",
-    body: "Hébergement dans l'Union européenne.",
+    title: "Hébergé en Europe",
+    body: "Serveurs dans l'Union européenne.",
   },
 ];
 

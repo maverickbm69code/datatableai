@@ -11,30 +11,30 @@ import { EASE_OUT, REVEAL_VIEWPORT } from "@/lib/motion";
 
 const COPY = {
   fr: {
-    eyebrow: "DaTable · Intelligence et rentabilité pour les restaurateurs",
+    eyebrow: "DaTable · Le copilote de votre restaurant",
     words: [
-      { text: "L’argent" },
-      { text: "est" },
-      { text: "déjà" },
-      { text: "dans" },
+      { text: "Un" },
+      { text: "copilote" },
+      { text: "pour" },
+      { text: "piloter" },
       { text: "votre", accent: true },
-      { text: "caisse.", accent: true },
+      { text: "restaurant.", accent: true },
     ],
-    lead: "Datable analyse vos ventes de caisse et vous dit, en euros, comment augmenter votre chiffre d'affaires. Puis on suit les résultats avec vous, chaque mois.",
-    promises: ["1er mois offert", "Aucune installation", "Visite mensuelle incluse"],
+    lead: "Chiffre d'affaires, ventes par collaborateur, concurrence du quartier, food cost : DaTable lit toute votre data et vous dit chaque jour quoi faire pour gagner plus.",
+    promises: ["1er mois offert", "Rien à installer", "Une visite par mois"],
   },
   en: {
-    eyebrow: "DaTable · Intelligence & profitability for restaurants",
+    eyebrow: "DaTable · Your restaurant's copilot",
     words: [
-      { text: "The" },
-      { text: "money's" },
-      { text: "already" },
-      { text: "in" },
+      { text: "A" },
+      { text: "copilot" },
+      { text: "to" },
+      { text: "run" },
       { text: "your", accent: true },
-      { text: "register.", accent: true },
+      { text: "restaurant.", accent: true },
     ],
-    lead: "Datable analyzes your POS sales and shows you, in dollars, exactly how to grow your top line. Then we track the results with you, month after month.",
-    promises: ["First month free", "Nothing to install", "Monthly on-site visit included"],
+    lead: "Revenue, sales per staff member, local competition, food cost: DaTable reads all your data and tells you every day what to do to earn more.",
+    promises: ["First month free", "Nothing to install", "One visit a month"],
   },
 };
 
@@ -80,7 +80,7 @@ export function HeroSection() {
           />
 
           <Reveal delay={0.28} y={12}>
-            <LeadForm source="hero" className="mt-9" />
+            <div id="contact" className="scroll-mt-24"><LeadForm source="hero" className="mt-9" /></div>
           </Reveal>
 
           <ul className="mt-8 flex flex-wrap gap-x-7 gap-y-3">

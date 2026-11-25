@@ -52,7 +52,7 @@ export function LeadForm({ source, className }: LeadFormProps) {
   const lang = useLang();
   const t = useCopy(COPY);
   const offer = useSelectedOffer();
-  const shownOffer = source === "footer" ? offer : null;
+  const shownOffer = offer;
 
   const inputId = `${source}-lead-email`;
   const errorId = `${source}-lead-error`;

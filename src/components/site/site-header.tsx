@@ -13,27 +13,29 @@ import { cn } from "@/lib/utils";
 const COPY = {
   fr: {
     nav: [
-      { href: "#fonctionnement", label: "Fonctionnement" },
-      { href: "#offres", label: "Nos offres" },
+      { href: "#service", label: "Le service" },
+      { href: "#rythme", label: "Le rythme" },
+      { href: "#offres", label: "Offres et prix" },
       { href: "#confidentialite", label: "Confidentialité" },
     ],
     home: "Datable, retour en haut de page",
     mainNav: "Navigation principale",
     mobileNav: "Navigation mobile",
-    cta: "Mon diagnostic offert",
+    cta: "Être contacté",
     openMenu: "Ouvrir le menu",
     closeMenu: "Fermer le menu",
   },
   en: {
     nav: [
-      { href: "#fonctionnement", label: "How it works" },
+      { href: "#service", label: "The service" },
+      { href: "#rythme", label: "The rhythm" },
       { href: "#offres", label: "Pricing" },
       { href: "#confidentialite", label: "Privacy" },
     ],
     home: "Datable, back to top",
     mainNav: "Main navigation",
     mobileNav: "Mobile navigation",
-    cta: "Get my free assessment",
+    cta: "Contact me",
     openMenu: "Open menu",
     closeMenu: "Close menu",
   },
@@ -92,7 +94,7 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
           <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href="#diagnostic">{t.cta}</a>
+            <a href="#contact">{t.cta}</a>
           </Button>
           <button
             type="button"
@@ -131,7 +133,7 @@ export function SiteHeader() {
               ))}
             </nav>
             <Button asChild size="lg" className="mt-6 w-full">
-              <a href="#diagnostic" onClick={() => setMenuOpen(false)}>
+              <a href="#contact" onClick={() => setMenuOpen(false)}>
                 {t.cta}
               </a>
             </Button>
