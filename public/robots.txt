@@ -1,4 +1,4 @@
-# robots.txt — https://datableia.com
+# robots.txt https://datableia.com
 # Public pages are open to search engines and AI search assistants.
 # Private areas (admin, form endpoint) stay out of every index.
 

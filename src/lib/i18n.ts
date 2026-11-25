@@ -53,13 +53,13 @@ let current: Lang = detectLang();
 
 const META: Record<Lang, { title: string; description: string; locale: string }> = {
   fr: {
-    title: "DaTable — Intelligence et rentabilité pour les restaurateurs",
+    title: "DaTable | Intelligence et rentabilité pour les restaurateurs",
     description:
       "Pilotez la rentabilité de votre restaurant avec DaTable : analyse des ventes, veille concurrentielle et plan d'action, entre IA et accompagnement humain.",
     locale: "fr_FR",
   },
   en: {
-    title: "DaTable — Intelligence and profitability for restaurant owners",
+    title: "DaTable | Intelligence and profitability for restaurant owners",
     description:
       "Run a more profitable restaurant with DaTable: sales analytics, competitor monitoring and a clear action plan, combining AI with hands-on human support.",
     locale: "en_US",
