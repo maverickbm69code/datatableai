@@ -64,51 +64,33 @@ export async function submitLead(
   }
 }
 
-// The Supabase SDK is only needed by the admin page, so it is loaded on demand
-// and stays out of the public home page bundle.
-const loadSupabase = () => import("@/integrations/supabase/client").then((m) => m.supabase);
-
-type AdminStatusResult = { ok: boolean; configured?: boolean; error?: string };
-type AdminAuthResult = { ok: boolean; token?: string; needsSetup?: boolean; error?: string };
+// Admin API (Netlify Function netlify/functions/admin-leads.mts). The session lives in an
+// HttpOnly cookie set by the server: no token or secret is ever handled by page scripts.
+type AdminStatusResult = { ok: boolean; configured?: boolean; authenticated?: boolean; error?: string };
+type AdminAuthResult = { ok: boolean; error?: string };
 type AdminListResult = { ok: boolean; leads?: Lead[]; expired?: boolean; error?: string };
 
-export async function fetchAdminStatus() {
-  const supabase = await loadSupabase();
-  const { data, error } = await supabase.functions.invoke("admin-leads", {
-    body: { action: "status" },
-    headers: { "Content-Type": "application/json" },
-  });
-  if (error) return { ok: false, error: "Le service est indisponible pour le moment." } as AdminStatusResult;
-  return (data as AdminStatusResult) ?? { ok: false, error: "Le service est indisponible pour le moment." };
+const UNAVAILABLE = "Le service est indisponible pour le moment.";
+
+async function adminRequest<T extends { ok: boolean; error?: string }>(path: string, body?: unknown): Promise<T> {
+  try {
+    const response = await fetch(`/api/admin/${path}`, {
+      method: body === undefined ? "GET" : "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: body === undefined ? undefined : { "Content-Type": "application/json" },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+    const data = (await response.json().catch(() => null)) as T | null;
+    return data ?? ({ ok: false, error: UNAVAILABLE } as T);
+  } catch {
+    return { ok: false, error: UNAVAILABLE } as T;
+  }
 }
 
-async function adminAuth(action: "setup" | "login", passcode: string) {
-  const supabase = await loadSupabase();
-  const { data, error } = await supabase.functions.invoke("admin-leads", {
-    body: { action, passcode },
-    headers: { "Content-Type": "application/json" },
-  });
-  if (error) return { ok: false, error: "Le service est indisponible pour le moment." } as AdminAuthResult;
-  return (data as AdminAuthResult) ?? { ok: false, error: "Le service est indisponible pour le moment." };
-}
-
-export const setupAdminAccess = (passcode: string) => adminAuth("setup", passcode);
-export const loginAdmin = (passcode: string) => adminAuth("login", passcode);
-
-export async function fetchLeads(token: string) {
-  const supabase = await loadSupabase();
-  const { data, error } = await supabase.functions.invoke("admin-leads", {
-    body: { action: "list", token },
-    headers: { "Content-Type": "application/json" },
-  });
-  if (error) return { ok: false, error: "Le service est indisponible pour le moment." } as AdminListResult;
-  return (data as AdminListResult) ?? { ok: false, error: "Le service est indisponible pour le moment." };
-}
-
-export async function logoutAdmin(token: string) {
-  const supabase = await loadSupabase();
-  await supabase.functions.invoke("admin-leads", {
-    body: { action: "logout", token },
-    headers: { "Content-Type": "application/json" },
-  });
+export const fetchAdminStatus = () => adminRequest<AdminStatusResult>("status");
+export const loginAdmin = (passcode: string) => adminRequest<AdminAuthResult>("login", { passcode });
+export const fetchLeads = () => adminRequest<AdminListResult>("leads");
+export async function logoutAdmin() {
+  await adminRequest("logout", {});
 }
