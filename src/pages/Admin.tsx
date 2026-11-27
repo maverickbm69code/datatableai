@@ -10,12 +10,12 @@ import {
   fetchLeads,
   loginAdmin,
   logoutAdmin,
-  setupAdminAccess,
   type Lead,
 } from "@/lib/datable-leads";
 import { EASE_OUT } from "@/lib/motion";
 
-const TOKEN_KEY = "datable-admin-token";
+// Former storage key of the old backend session; removed on load.
+const LEGACY_TOKEN_KEY = "datable-admin-token";
 
 const SOURCE_LABELS: Record<string, string> = {
   hero: "Haut de page",
@@ -41,25 +41,19 @@ function toCsv(leads: Lead[]) {
 }
 
 const Admin = () => {
-  const [stage, setStage] = useState<"loading" | "setup" | "login" | "leads">("loading");
+  const [stage, setStage] = useState<"loading" | "unconfigured" | "login" | "leads">("loading");
   const [passcode, setPasscode] = useState("");
-  const [confirm, setConfirm] = useState("");
-  const [token, setToken] = useState<string | null>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const loadLeads = useCallback(async (activeToken: string) => {
+  const loadLeads = useCallback(async () => {
     setBusy(true);
-    const result = await fetchLeads(activeToken);
+    const result = await fetchLeads();
     setBusy(false);
 
     if (!result.ok || !result.leads) {
-      if (result.expired) {
-        localStorage.removeItem(TOKEN_KEY);
-        setToken(null);
-        setStage("login");
-      }
+      if (result.expired) setStage("login");
       setError(result.error ?? "Lecture des leads impossible pour le moment.");
       return;
     }
@@ -73,13 +67,7 @@ const Admin = () => {
     let cancelled = false;
 
     async function boot() {
-      const stored = localStorage.getItem(TOKEN_KEY);
-      if (stored) {
-        if (cancelled) return;
-        setToken(stored);
-        await loadLeads(stored);
-        return;
-      }
+      localStorage.removeItem(LEGACY_TOKEN_KEY);
 
       const status = await fetchAdminStatus();
       if (cancelled) return;
@@ -90,7 +78,17 @@ const Admin = () => {
         return;
       }
 
-      setStage(status.configured ? "login" : "setup");
+      if (!status.configured) {
+        setStage("unconfigured");
+        return;
+      }
+
+      if (status.authenticated) {
+        await loadLeads();
+        return;
+      }
+
+      setStage("login");
     }
 
     void boot();
@@ -103,38 +101,28 @@ const Admin = () => {
     event.preventDefault();
     if (busy) return;
 
-    if (passcode.length < 8) {
-      setError("Choisissez un code d'accès de 8 caractères minimum.");
-      return;
-    }
-
-    if (stage === "setup" && passcode !== confirm) {
-      setError("Les deux codes d'accès ne sont pas identiques.");
+    if (!passcode) {
+      setError("Saisissez votre code d'accès.");
       return;
     }
 
     setBusy(true);
     setError(null);
 
-    const result = stage === "setup" ? await setupAdminAccess(passcode) : await loginAdmin(passcode);
+    const result = await loginAdmin(passcode);
     setBusy(false);
 
-    if (!result.ok || !result.token) {
+    if (!result.ok) {
       setError(result.error ?? "Connexion impossible. Merci de réessayer.");
       return;
     }
 
-    localStorage.setItem(TOKEN_KEY, result.token);
-    setToken(result.token);
     setPasscode("");
-    setConfirm("");
-    await loadLeads(result.token);
+    await loadLeads();
   }
 
   async function handleLogout() {
-    if (token) await logoutAdmin(token);
-    localStorage.removeItem(TOKEN_KEY);
-    setToken(null);
+    await logoutAdmin();
     setLeads([]);
     setPasscode("");
     setStage("login");
@@ -181,7 +169,7 @@ const Admin = () => {
             </motion.p>
           ) : null}
 
-          {stage === "setup" || stage === "login" ? (
+          {stage === "unconfigured" || stage === "login" ? (
             <motion.div
               key={stage}
               initial={{ opacity: 0, y: 12 }}
@@ -190,16 +178,17 @@ const Admin = () => {
               transition={{ duration: 0.32, ease: EASE_OUT }}
               className="max-w-[26rem]"
             >
-              <p className="eyebrow">{stage === "setup" ? "Première utilisation" : "Accès réservé"}</p>
+              <p className="eyebrow">Accès réservé</p>
               <h1 className="mt-4 font-display text-[clamp(1.6rem,3vw,2.15rem)] font-bold leading-tight tracking-[-0.035em] text-foreground">
-                {stage === "setup" ? "Créez votre code d'accès" : "Liste des leads"}
+                Liste des leads
               </h1>
               <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-                {stage === "setup"
-                  ? "Ce code protège la page d'administration et la liste des leads. Il n'est connu que de vous."
+                {stage === "unconfigured"
+                  ? "L'accès administrateur n'est pas encore configuré. Le propriétaire du site doit définir le code d'accès depuis le tableau de bord Netlify."
                   : "Saisissez le code d'accès de la page d'administration."}
               </p>
 
+              {stage === "login" ? (
               <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5" noValidate>
                 <div>
                   <label
@@ -211,7 +200,7 @@ const Admin = () => {
                   <Input
                     id="admin-passcode"
                     type="password"
-                    autoComplete={stage === "setup" ? "new-password" : "current-password"}
+                    autoComplete="current-password"
                     value={passcode}
                     onChange={(event) => {
                       setPasscode(event.target.value);
@@ -221,33 +210,12 @@ const Admin = () => {
                   />
                 </div>
 
-                {stage === "setup" ? (
-                  <div>
-                    <label
-                      htmlFor="admin-passcode-confirm"
-                      className="mb-2 block font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted-foreground"
-                    >
-                      Confirmer le code
-                    </label>
-                    <Input
-                      id="admin-passcode-confirm"
-                      type="password"
-                      autoComplete="new-password"
-                      value={confirm}
-                      onChange={(event) => {
-                        setConfirm(event.target.value);
-                        if (error) setError(null);
-                      }}
-                      disabled={busy}
-                    />
-                  </div>
-                ) : null}
-
                 <Button type="submit" size="lg" disabled={busy}>
                   {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
-                  {stage === "setup" ? "Créer mon accès" : "Afficher les leads"}
+                  Afficher les leads
                 </Button>
               </form>
+              ) : null}
 
               {error ? (
                 <p role="alert" className="mt-4 text-[13.5px] text-destructive">
@@ -278,8 +246,8 @@ const Admin = () => {
                 <div className="flex flex-wrap gap-3">
                   <Button
                     variant="secondary"
-                    onClick={() => token && loadLeads(token)}
-                    disabled={busy || !token}
+                    onClick={() => loadLeads()}
+                    disabled={busy}
                   >
                     {busy ? (
                       <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
